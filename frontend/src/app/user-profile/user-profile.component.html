@@ -1,0 +1,39 @@
+<h2>Profil</h2>
+<div>
+    Prénom: {{ user?.firstname }} <br>
+    Nom: {{ user?.lastname }} <br>
+    Email: {{ user?.email }} <br>
+</div>
+<button mat-raised-button color="primary">Modifier mon profil</button>
+<p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
+
+
+<div>
+
+    <h2>Modifiez votre profil</h2>
+
+    <div>
+        <div>
+            <form>
+            <div>
+                <p><label for="firstname" required><b>Prénom: {{ user?.firstname }}</b></label></p>
+                <p><input id="firstname" type="text" placeholder="Modifiez votre prénom" name="firstname"
+                        class="form-control" required>
+                </p>
+                <p><label for="lastname" required><b>Nom: {{ user?.lastname }}</b></label></p>
+                <p><input id="lastname" type="text" placeholder="Modifiez votre nom" name="lastname"
+                        class="form-control" required>
+                </p>
+                <p><label for="email" required><b>Email: {{ user?.email }}</b></label></p>
+                <p><input id="email" type="email" placeholder="Modifiez votre email" name="email" class="form-control"
+                        required></p>
+            </div>
+            </form>
+
+        </div>
+
+        <div>
+            <button (click)="onUpdate()">Éditer mon profil</button>
+        </div>
+
+    </div>
