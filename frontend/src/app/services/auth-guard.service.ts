@@ -1,4 +1,4 @@
-/*import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
@@ -15,7 +15,7 @@ export class AuthGuard implements CanActivate {
       (observer) => {
         this.auth.isAuth$.subscribe(
           (auth) => {
-            if (auth) {
+            if (localStorage.getItem("Users")) {
               observer.next(true);
             } else {
               this.router.navigate(['/login']);
@@ -25,4 +25,4 @@ export class AuthGuard implements CanActivate {
       }
     );
   }
-}*/
+}

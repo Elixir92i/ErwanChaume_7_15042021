@@ -3,6 +3,7 @@
     Prénom: {{ user?.firstname }} <br>
     Nom: {{ user?.lastname }} <br>
     Email: {{ user?.email }} <br>
+    Image: <img src="{{ user?.imageUrl }}" alt="">
 </div>
 <button mat-raised-button color="primary">Modifier mon profil</button>
 <p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
@@ -14,26 +15,36 @@
 
     <div>
         <div>
-            <form>
-            <div>
-                <p><label for="firstname" required><b>Prénom: {{ user?.firstname }}</b></label></p>
-                <p><input id="firstname" type="text" placeholder="Modifiez votre prénom" name="firstname"
-                        class="form-control" required>
-                </p>
-                <p><label for="lastname" required><b>Nom: {{ user?.lastname }}</b></label></p>
-                <p><input id="lastname" type="text" placeholder="Modifiez votre nom" name="lastname"
-                        class="form-control" required>
-                </p>
-                <p><label for="email" required><b>Email: {{ user?.email }}</b></label></p>
-                <p><input id="email" type="email" placeholder="Modifiez votre email" name="email" class="form-control"
-                        required></p>
-            </div>
+
+            <form *ngIf="updateForm && !loading" [formGroup]="updateForm">
+                <div class="form-group">
+                    <label for="firstname" required>Prénom: {{ user?.firstname }}</label>
+                    <input type="firstname" class="form-control" id="firstname" formControlName="firstname"><br />
+
+                    <label for="lastname" required>Nom: {{ user?.lastname }}</label>
+                    <input type="lastname" class="form-control" id="lastname" formControlName="lastname"><br />
+
+                    <label for="email" required>Email: {{ user?.email }}</label>
+                    <input type="email" class="form-control" id="email" formControlName="email"><br />
+
+                    <!--<label class="custom-file-label btn btn-secondary" for="imageUrl">Choisir un fichier</label>
+                    <input type="file" class="custom-file-input d-none" id="imageUrl" name="filename">-->
+
+                    <input type="file" accept="image/*" #imageInput (change)="onFileAdded($event)">
+                    <button mat-raised-button color="primary" (click)="imageInput.click()">ADD IMAGE</button>
+                    <img [src]="imagePreview" *ngIf="imagePreview"
+                        style="max-height: 100px;display:block;margin-top:10px">
+
+                    <label for="password" required>password: </label>
+                    <input type="password" class="form-control" id="password" formControlName="password"><br />
+                </div>
             </form>
 
         </div>
 
         <div>
-            <button (click)="onUpdate()">Éditer mon profil</button>
+            <button [disabled]="updateForm.invalid" (click)="onUpdate()">Éditer mon profil</button>
+            <button mat-raised-button color="warn" [disabled]="updateForm.invalid" (click)="onDelete()">DELETE</button>
         </div>
 
     </div>

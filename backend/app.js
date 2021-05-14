@@ -10,6 +10,8 @@ const usersRoutes = require('./routes/users');
 //
 const sequelize = require('./utils/database');
 const User = require('./models/User');
+const PostMedia = require('./models/postMedia');
+const PostMessage = require('./models/postMessage');
 
 sequelize.sync();
 
@@ -23,6 +25,8 @@ app.use((req, res, next) => {
 });
 
 app.use(bodyParser.json());
+
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/api/users', usersRoutes);
 

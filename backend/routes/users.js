@@ -13,10 +13,9 @@ router.post('/signup', userCtrl.signup);
 // Route connexion d'un utilisateur
 router.post('/login', userCtrl.login);
 // Route modification d'un utilisateur
-router.put('/user-profile/:user_id', /*auth,*/ multer, userCtrl.update);
-//router.get('/me', auth, userCtrl.getMe);
+router.put('/user-profile/:user_id', auth, multer, userCtrl.update);
 // Route supression d'un utilisateur
-//router.delete('/delete/:id', auth, multer, userCtrl.delete);
+router.delete('/user-profile/:user_id', auth, multer, userCtrl.delete);
 // Route récupération d'un utilisateur
 router.get('/user-profile/:user_id', auth, multer, userCtrl.getUser);
 // Route récupération de tous les utilisateurs

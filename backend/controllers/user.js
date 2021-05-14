@@ -4,12 +4,9 @@ const bcrypt = require('bcrypt');
 const User = require('../models/User');
 // Importation du module JWT (token unique par utilisateur)
 const jwt = require('jsonwebtoken');
-const mysql = require("sequelize");
 
 const fs = require('fs');
 const multer = require('../middleware/multer-config');
-const decodeUId = require('../middleware/auth');
-const db = require('../utils/database');
 
 
 // Création d'un utilisateur
@@ -69,66 +66,79 @@ exports.getUser = (req, res, next) => {
   }).then(user =>
     res.status(200).json(user))
     .catch(error => res.status(400).json({ error }));
-}
+};
 
 // Update
 exports.update = (req, res, next) => {
-  bcrypt.hash(req.body.password, 10)
-    .then(hash => {
-      const values = req.file ?
-        {
-          firstname: req.body.firstname,
-          lastname: req.body.lastname,
-          email: req.body.email,
-          password: hash,
-        } : {
-          firstname: req.body.firstname,
-          lastname: req.body.lastname,
-          email: req.body.email,
-          password: hash,
-        };
-      var condition = { where: { user_id: req.params.id } }
-      var options = { multi: true };
+  let file = req.file;
+  User.findOne({
+    where: { user_id: req.params.user_id },
+  })
+    .then(user => {
+      bcrypt.compare(req.body.password, user.password)
+        .then(valid => {
+          if (!valid) {
+            return res.status(401).json({ error: 'Mot de passe incorrect !' });
+          }
 
-      User.update(values, condition, options)
-    })
+          const filename = user.imageUrl.split('/images/')[1];
+          const defaultFile = user.imageUrl;
+          const defaultImage = 'http://localhost:3000/images/default.png';
+          if (defaultFile == defaultImage) {
+            return
+          }
+          else if (file && filename != file.filename) {
+            fs.unlink(`images/${filename}`, () => {
+            })
+          }
+          const values = req.file ?
+            {
+              firstname: req.body.firstname,
+              lastname: req.body.lastname,
+              email: req.body.email,
+              imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+            } : {
+              firstname: req.body.firstname,
+              lastname: req.body.lastname,
+              email: req.body.email,
+            };
+          var condition = { where: { user_id: req.params.user_id } }
+          var options = { multi: true };
 
-    .then(Update => {
-      /*let user = */User.findOne({ where: { user_id: req.params.id } }
-      ).then(user => res.status(200).json((user))
-      )
+          User.update(values, condition, options)
+        })
+        .catch(error => res.status(400).json({ error }))
+
+        .then(response => {
+          let user = User.findOne({ where: { user_id: req.params.user_id } })
+            .then(user => res.status(200).json((user)))
+        })
+        .catch(error => res.status(400).json({ error }))
     })
     .catch(error => res.status(400).json({ error }))
-}
+};
+
+// Supprimer un utilisateur
+exports.delete = (req, res, next) => {
+  // Recherche de l'utilisateur grâce à son ID
+  User.findOne({ where: { user_id: req.params.user_id } })
+    .then(user => {
+      // Suppression de l'image associée dans la base de donnée
+      const filename = user.imageUrl.split('/images/')[1];
+      const defaultFile = user.imageUrl;
+      const defaultDelImage = 'http://localhost:3000/images/default.png';
+      if (defaultFile != defaultDelImage) {
+        fs.unlink(`images/${filename}`, () => {
+        })
+      }
+    })
+  // Suppression de l'utilisateur dans la base de donnée
+  User.destroy({ where: { user_id: req.params.user_id } })
+    .then(() => res.status(200).json({ message: 'Utilisateur supprimé !' }))
+    .catch(error => res.status(400).json({ error }));
 
 
-// Modification d'un utilisateur
-/*exports.update = (req, res, next) => {
-  bcrypt.hash(req.body.password, 10)
-    .then(hash => {
-      //var file = req.file;
-      User.findOne({ where: {user_id: req.params.user_id} })
-        .then(user => {
-          // Suppression de l'image associée dans la base de donnée avant modification
-          /*const filename = sauce.imageUrl.split('/images/')[1];
-          if (file && filename != file.filename) {
-            fs.unlink(`images/${filename}`, () => {
-            });
-          }
-        });*/
-          // Recherche de l'image associée
-/*const userObject = req.file ?
-  {
-    // Récupération des informations de la sauce sélectionnée
-    ...JSON.parse(req.body.user),
-    /*imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-  } : { ...req.body };}:*/
 
-          // Mise à jour de l'utilisateur
-/*User.updateOne({ _id: req.params.user_id }, { ...userObject, user_id: req.params.user_id })
-  .then(() => res.status(200).json({ message: 'User modifiée !' }))
-  .catch(error => res.status(400).json({ error }));
+  //.catch(error => res.status(500).json({ error }));
+};
 
-})
-});
-}*/

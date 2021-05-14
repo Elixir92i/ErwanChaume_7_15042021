@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    this.user_id = this.auth.getUserId();
+    /*this.user_id = this.auth.getUserId();
     this.route.params.subscribe(
       (params) => {
         this.auth.getUserById(params.id).then(
@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
           }
         );
       }
-    );
+    );*/
     this.user_id = this.auth.getUserId();
   }
 

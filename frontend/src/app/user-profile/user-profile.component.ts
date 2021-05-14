@@ -17,39 +17,38 @@ export class UserProfileComponent implements OnInit {
   errorMsg: string;
   user: User;
   user_id: string;
+  imagePreview: string;
 
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(
+    private formBuilder: FormBuilder,
     private auth: AuthService,
     private route: ActivatedRoute,
     private router: Router) { }
 
-  ngOnInit() {
-    this.user_id = this.auth.getUserId();
-    this.route.params.subscribe(
-      (params) => {
-        console.log(this.auth.getUserId());
-        this.auth.getUserById(this.auth.getUserId()).then(
-          (user: User) => {
-            console.log(user);
-            this.user = user;
-            this.loading = false;
-          }
-        );
-      }
-    );
-    this.user_id = this.auth.getUserId();
-  }
-
-  onModify() {
-    this.router.navigate(['/modify-profile', this.user_id]);
-  }
-
+    ngOnInit() {
+      this.user_id = this.auth.getUserId();
+      this.route.params.subscribe(
+        (params) => {
+          console.log(this.auth.getUserId());
+          this.auth.getUserById(this.auth.getUserId()).then(
+            (user: User) => {
+              console.log(user);
+              this.user = user;
+              this.initModifyForm(user);
+              this.loading = false;
+            }
+          );
+        }
+      );
+    }
+    
   initModifyForm(user: User) {
     this.updateForm = this.formBuilder.group({
       firstname: [this.user.firstname, Validators.required],
       lastname: [this.user.lastname, Validators.required],
-      password: [this.user.password, Validators.required],
+      image: [this.user.imageUrl, Validators.required],
+      password: [null, Validators.required],
       email: [this.user.email, Validators.required],
     });
   }
@@ -63,10 +62,11 @@ export class UserProfileComponent implements OnInit {
     updateUser.lastname = this.updateForm.get('lastname').value;
     updateUser.user_id = this.auth.getUserId();
 
-    this.auth.updateUser(this.user.user_id, updateUser).then(
+    this.auth.updateUser(this.user.user_id, updateUser, this.updateForm.get('image').value).then(
       (response: { message: string }) => {
         console.log(response.message);
         this.loading = false;
+        window.location.reload();
         this.router.navigate(['/user-profile']);
       }
     ).catch(
@@ -74,6 +74,35 @@ export class UserProfileComponent implements OnInit {
         this.loading = false;
         console.error(error);
         this.errorMsg = error.message;
+      }
+    );
+  }
+
+  onFileAdded(event: Event) {
+    const file = (event.target as HTMLInputElement).files[0];
+    this.updateForm.get('image').setValue(file);
+    this.updateForm.updateValueAndValidity();
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  onDelete() {
+    this.loading = true;
+    this.auth.deleteUser(this.user.user_id).then(
+      (response: { message: string }) => {
+        console.log(response.message);
+        this.loading = false;
+        window.localStorage.clear();
+        this.router.navigate(['/signup']);
+      }
+    ).catch(
+      (error) => {
+        this.loading = false;
+        this.errorMsg = error.message;
+        console.error(error);
       }
     );
   }

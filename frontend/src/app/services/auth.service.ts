@@ -63,10 +63,7 @@ export class AuthService {
   getUserById(user_id: string) {
     return new Promise((resolve, reject) => {
       console.log(user_id);
-      let headers: HttpHeaders = new HttpHeaders({'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem("Users")).Token});
-      this.http.get('http://localhost:3000/api/users/user-profile/' + user_id, {
-        "headers": headers 
-      }).subscribe(
+      this.http.get('http://localhost:3000/api/users/user-profile/' + user_id).subscribe(
         (user: User) => {
           resolve(user);
         },
@@ -77,13 +74,37 @@ export class AuthService {
     });
   }
 
-  updateUser(user_id: string, user: User) {
+  updateUser(user_id: string, user: User, image: string | File) {
     return new Promise((resolve, reject) => {
-      const formData = new FormData();
-      formData.append('user', JSON.stringify(user));
-      //formData.append('image', image);
-      user_id = this.user_id;
-      this.http.put('http://localhost:3000/api/users/user-profile/' + user_id, formData).subscribe(
+      if (typeof image === 'string') {
+        this.http.put('http://localhost:3000/api/users/user-profile/' + user_id, user).subscribe(
+          (response: { message: string }) => {
+            resolve(response);
+          },
+          (error) => {
+            reject(error);
+          }
+        );
+      } else {
+        const formData = new FormData();
+        formData.append('user', JSON.stringify(user));
+        formData.append('image', image);
+        console.log(formData);
+        this.http.put('http://localhost:3000/api/users/user-profile/' + user_id, formData).subscribe(
+          (response: { message: string }) => {
+            resolve(response);
+          },
+          (error) => {
+            reject(error);
+          }
+        );
+      }
+    });
+  }
+
+  deleteUser(user_id: string) {
+    return new Promise((resolve, reject) => {
+      this.http.delete('http://localhost:3000/api/users/user-profile/' + user_id).subscribe(
         (response: { message: string }) => {
           resolve(response);
         },

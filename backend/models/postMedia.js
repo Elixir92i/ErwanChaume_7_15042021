@@ -5,17 +5,16 @@ const Sequelize = require('sequelize')
 // Database connection pool managed by Sequelize.
 const sequelize = require('../utils/database')
 
-const defaultProfile = ('http://localhost:3000/images/default.png');
   
 // Define method takes two arrguments
 // 1st - name of table
 // 2nd - columns inside the table
-const User = sequelize.define('user', {
+const PostMedia = sequelize.define('postMedia', {
   
     // Column-1, user_id is an object with 
     // properties like type, keys, 
     // validation of column.
-    user_id:{
+    media_id:{
   
         // Sequelize module has INTEGER Data_Type.
         type:Sequelize.INTEGER,
@@ -31,15 +30,13 @@ const User = sequelize.define('user', {
     },
   
     // Column-2, name
-    firstname: { type: Sequelize.STRING, allowNull:false },
-    lastname: { type: Sequelize.STRING, allowNull:false },
-    imageUrl: { type: Sequelize.STRING, defaultValue: defaultProfile },
-  
-    // Column-3, email
-    email: { type: Sequelize.STRING, allowNull:false, unique: true },
-    password: { type: Sequelize.STRING, allowNull:false },
-    admin: { type : Sequelize.BOOLEAN, allowNull: false, defaultValue: false },
-    // Column-4, default values for
+    title: { type: Sequelize.STRING, allowNull:false },
+    mediaUrl: { type: Sequelize.STRING, allowNull:false },
+    likes: {type: Sequelize.INTEGER, allowNull: true},
+    users_liked:{ type: Sequelize.STRING, allowNull: true},
+    dislikes: {type: Sequelize.INTEGER, allowNull: true},
+    users_disliked:{ type: Sequelize.STRING, allowNull: true},
+    
     // dates => current time
     myDate: { type: Sequelize.DATE, 
             defaultValue: Sequelize.NOW },
@@ -52,4 +49,4 @@ const User = sequelize.define('user', {
 // Exporting User, using this constant
 // we can perform CRUD operations on
 // 'user' table.
-module.exports = User;
+module.exports = PostMedia;
