@@ -5,46 +5,8 @@
     Email: {{ user?.email }} <br>
     Image: <img src="{{ user?.imageUrl }}" alt="">
 </div>
-<button mat-raised-button color="primary">Modifier mon profil</button>
+<button mat-raised-button color="primary" (click)="onModify()">Modifier mon profil</button>
 <p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
 
 
 <div>
-
-    <h2>Modifiez votre profil</h2>
-
-    <div>
-        <div>
-
-            <form *ngIf="updateForm && !loading" [formGroup]="updateForm">
-                <div class="form-group">
-                    <label for="firstname" required>Prénom: {{ user?.firstname }}</label>
-                    <input type="firstname" class="form-control" id="firstname" formControlName="firstname"><br />
-
-                    <label for="lastname" required>Nom: {{ user?.lastname }}</label>
-                    <input type="lastname" class="form-control" id="lastname" formControlName="lastname"><br />
-
-                    <label for="email" required>Email: {{ user?.email }}</label>
-                    <input type="email" class="form-control" id="email" formControlName="email"><br />
-
-                    <!--<label class="custom-file-label btn btn-secondary" for="imageUrl">Choisir un fichier</label>
-                    <input type="file" class="custom-file-input d-none" id="imageUrl" name="filename">-->
-
-                    <input type="file" accept="image/*" #imageInput (change)="onFileAdded($event)">
-                    <button mat-raised-button color="primary" (click)="imageInput.click()">ADD IMAGE</button>
-                    <img [src]="imagePreview" *ngIf="imagePreview"
-                        style="max-height: 100px;display:block;margin-top:10px">
-
-                    <label for="password" required>password: </label>
-                    <input type="password" class="form-control" id="password" formControlName="password"><br />
-                </div>
-            </form>
-
-        </div>
-
-        <div>
-            <button [disabled]="updateForm.invalid" (click)="onUpdate()">Éditer mon profil</button>
-            <button mat-raised-button color="warn" [disabled]="updateForm.invalid" (click)="onDelete()">DELETE</button>
-        </div>
-
-    </div>

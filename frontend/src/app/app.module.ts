@@ -11,6 +11,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { HomeComponent } from './home/home.component';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
+import { ProfileUpdateComponent } from './profile-update/profile-update.component';
+import { TimelineComponent } from './timeline/timeline.component';
 
 
 @NgModule({
@@ -20,6 +22,8 @@ import { AuthInterceptor } from './interceptor/auth.interceptor';
     LoginComponent,
     UserProfileComponent,
     HomeComponent,
+    ProfileUpdateComponent,
+    TimelineComponent,
   ],
   imports: [
     BrowserModule,

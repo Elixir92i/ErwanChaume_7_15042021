@@ -1,0 +1,106 @@
+<h2>Modifiez votre profil</h2>
+
+<div>
+  <div>
+    <button (click)="goBackProfile()">Retourner au profil</button>
+
+    <form *ngIf="updateForm && !loading" [formGroup]="updateForm">
+      <div class="form-group">
+        <label for="firstname" required>Prénom: {{ user?.firstname }}</label><br />
+        <input type="firstname" class="form-control" id="firstname" formControlName="firstname"><br />
+
+        <label for="lastname" required>Nom: {{ user?.lastname }}</label><br />
+        <input type="lastname" class="form-control" id="lastname" formControlName="lastname"><br />
+
+        <label for="email" required>Email: {{ user?.email }}</label><br />
+        <input type="email" class="form-control" id="email" formControlName="email"><br />
+
+        <input type="file" accept="image/*" #imageInput (change)="onFileAdded($event)">
+        <!--<button mat-raised-button color="primary" (click)="imageInput.click()">ADD IMAGE</button>-->
+        <img [src]="imagePreview" *ngIf="imagePreview" style="max-height: 100px;display:block;margin-top:10px"><br />
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input 
+              formControlName="password"
+              id="password" 
+              type="password" 
+              class="form-control">
+          <div *ngIf="f.password.touched && f.password.invalid" class="alert alert-danger">
+              <div *ngIf="f.password.errors.required">Password is required.</div>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input 
+              formControlName="confirmPassword"
+              id="confirmPassword" 
+              type="password" 
+              class="form-control">
+          <div *ngIf="f.confirmPassword.touched && f.confirmPassword.invalid" class="alert alert-danger">
+              <div *ngIf="f.confirmPassword.errors.required">Password is required.</div>
+              <div *ngIf="f.confirmPassword.errors.confirmedValidator">Password and Confirm Password must be match.</div>
+          </div>
+      </div>
+
+      </div>
+    </form>
+
+
+  </div>
+  <div>
+    <button [disabled]="updateForm.invalid" (click)="onUpdate()">Éditer mon profil</button>
+    <button mat-raised-button color="warn" (click)="onDelete()">DELETE</button>
+  </div>
+
+  <!--<form [formGroup]="updateForm">
+            <mat-form-field>
+              <input matInput placeholder="New password" formControlName="password" required>
+              <mat-error *ngIf="updateForm.hasError('required', 'password')">
+                Please enter your new password
+              </mat-error>
+            </mat-form-field>
+          
+            <mat-form-field>
+              <input matInput placeholder="Confirm password" formControlName="confirmPassword" [errorStateMatcher]="matcher">
+              <mat-error *ngIf="updateForm.hasError('notSame')">
+                Passwords do not match
+              </mat-error>  
+            </mat-form-field>
+    </form>-->
+    <!--<div class="container">
+      <h1>Angular Validation Password and Confirm Password - ItSolutionStuff.com</h1>
+         
+      <form [formGroup]="updateForm">
+             
+          <div class="form-group">
+              <label for="password">Password</label>
+              <input 
+                  formControlName="password"
+                  id="password" 
+                  type="password" 
+                  class="form-control">
+              <div *ngIf="f.password.touched && f.password.invalid" class="alert alert-danger">
+                  <div *ngIf="f.password.errors.required">Password is required.</div>
+              </div>
+          </div>
+    
+          <div class="form-group">
+              <label for="confirmPassword">Confirm Password</label>
+              <input 
+                  formControlName="confirmPassword"
+                  id="confirmPassword" 
+                  type="password" 
+                  class="form-control">
+              <div *ngIf="f.confirmPassword.touched && f.confirmPassword.invalid" class="alert alert-danger">
+                  <div *ngIf="f.confirmPassword.errors.required">Password is required.</div>
+                  <div *ngIf="f.confirmPassword.errors.confirmedValidator">Password and Confirm Password must be match.</div>
+              </div>
+          </div>
+          
+          <button class="btn btn-primary" type="submit" (click)="onUpdate()">Submit</button>
+      </form>
+  </div>-->
+
+</div>

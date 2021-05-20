@@ -70,16 +70,19 @@ exports.getUser = (req, res, next) => {
 
 // Update
 exports.update = (req, res, next) => {
+  bcrypt.hash(req.body.password, 10)
+        .then(hash => {
   let file = req.file;
   User.findOne({
     where: { user_id: req.params.user_id },
   })
-    .then(user => {
-      bcrypt.compare(req.body.password, user.password)
+    //.then(user => {
+      
+      /*bcrypt.compare(req.body.password, user.password)
         .then(valid => {
           if (!valid) {
             return res.status(401).json({ error: 'Mot de passe incorrect !' });
-          }
+          }*/
 
           const filename = user.imageUrl.split('/images/')[1];
           const defaultFile = user.imageUrl;
@@ -91,15 +94,18 @@ exports.update = (req, res, next) => {
             fs.unlink(`images/${filename}`, () => {
             })
           }
+        //})
           const values = req.file ?
             {
               firstname: req.body.firstname,
               lastname: req.body.lastname,
               email: req.body.email,
+              password: hash,
               imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
             } : {
               firstname: req.body.firstname,
               lastname: req.body.lastname,
+              password: hash,
               email: req.body.email,
             };
           var condition = { where: { user_id: req.params.user_id } }
@@ -114,7 +120,6 @@ exports.update = (req, res, next) => {
             .then(user => res.status(200).json((user)))
         })
         .catch(error => res.status(400).json({ error }))
-    })
     .catch(error => res.status(400).json({ error }))
 };
 
