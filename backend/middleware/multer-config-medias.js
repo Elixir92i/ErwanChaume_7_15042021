@@ -1,5 +1,5 @@
 // Importation du module multer pour les photos
-const multer = require('multer'); 
+const multerMedias = require('multer'); 
 
 // Extensions des images acceptées par multer
 const MIME_TYPES = {
@@ -9,10 +9,9 @@ const MIME_TYPES = {
 };
 
 // Image à stocker
-const storage = multer.diskStorage({
+const storage = multerMedias.diskStorage({
     // Dossier de destination
     destination: (req, file, callback) => {
-        callback(null, 'images')
         callback(null, 'images/medias')
     },
     // Modification du nom des images reçu lors de l'ajout d'une sauce
@@ -23,4 +22,4 @@ const storage = multer.diskStorage({
     }
 });
 
-module.exports = multer({ storage }).single('image');
+module.exports = multerMedias({ storage }).single('image');

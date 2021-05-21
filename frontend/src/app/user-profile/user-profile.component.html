@@ -3,7 +3,7 @@
     Prénom: {{ user?.firstname }} <br>
     Nom: {{ user?.lastname }} <br>
     Email: {{ user?.email }} <br>
-    Image: <img src="{{ user?.imageUrl }}" alt="">
+    Image: <img [src]=" user?.imageUrl" alt="">
 </div>
 <button mat-raised-button color="primary" (click)="onModify()">Modifier mon profil</button>
 <p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>

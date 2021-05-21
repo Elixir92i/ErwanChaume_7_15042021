@@ -1,76 +1,102 @@
 // Importation du modèle des medias
-const Media = require('../models/postMedia');
+const Post = require('../models/post');
 const User = require('../models/User');
+const user = require('./user')
 // Importation du module fs 
 const fs = require('fs');
 
 // hasMany
-User.hasMany(Media, {foreignKey: 'user_id'});
-Media.belongsTo(User, {foreignKey: 'user_id'});
+User.hasMany(Post, { foreignKey: 'user_id' });
+Post.belongsTo(User, { foreignKey: 'user_id' });
 
 // Créer une media
-exports.createMedia = (req, res, next) => {
+exports.createPostMedia = (req, res, next) => {
     // Récupération des informations du formulaire de création de media
-    const mediaObject = JSON.parse(req.body.media);
+    const postObject = JSON.parse(req.body.post);
     // Ajout des valeurs like et dislike par défaut = 0
-    mediaObject.likes = 0;
-    mediaObject.dislikes = 0;
+    postObject.likes = 0;
+    postObject.dislikes = 0;
     // Création dans la base de donnée de la media avec l'image associée au mediaObject
-    const media = new Media({
-        ...mediaObject,
-        mediaUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    const post = new Post({
+        ...postObject,
+        mediaUrl: `${req.protocol}://${req.get('host')}/images/medias/${req.file.filename}`
     });
-    media.save()
-        .then(() => res.status(201).json({ message: 'Media publié !' }))
+    post.save()
+        .then(() => res.status(201).json({ message: 'Post publié !' }))
+        .catch(error => res.status(400).json({ error }));
+};
+
+// Créer un message
+exports.createPostMessage = (req, res, next) => {
+    // Récupération des informations du formulaire de création de message
+    const postObject = req.body;
+    // Ajout des valeurs like et dislike par défaut = 0
+    postObject.likes = 0;
+    postObject.dislikes = 0;
+    // Création dans la base de donnée du message
+    const post = new Post({
+        ...postObject
+    });
+    post.save()
+        .then(() => res.status(201).json({ message: 'Message publié !' }))
         .catch(error => res.status(400).json({ error }));
 };
 
 
-// Supprimer une media
-exports.deleteMedia = (req, res, next) => {
+
+// Supprimer un media
+exports.deletePost = (req, res, next) => {
     // Recherche de la media grâce à son ID
-    Media.findOne({ media_id: req.params.media_id })
-        .then(media => {
-            // Suppression de l'image associée dans la base de donnée
-            const filename = media.mediaUrl.split('/images/')[1];
-            fs.unlink(`images/${filename}`, () => {
-                // Suppression de la media dans la base de donnée
-                Media.destroy({ media_id: req.params.media_id })
-                    .then(() => res.status(200).json({ message: 'Media supprimée !' }))
-                    .catch(error => res.status(400).json({ error }));
-            });
+    Post.findOne({ where: { post_id: req.params.post_id } })
+        .then(post => {
+            const media = post.mediaUrl;
+            if (post.mediaUrl) {
+                // Suppression de l'image associée dans la base de donnée
+                const filename = post.mediaUrl.split('/images/medias/')[1];
+                fs.unlink(`images/medias/${filename}`, () => {
+                    // Suppression de la media dans la base de donnée
+                    Post.destroy({ where: { post_id: req.params.post_id } })
+                        .then(() => res.status(200).json({ message: 'Post supprimée !' }))
+                        .catch(error => res.status(400).json({ error }));
+                });
+            }
+            else {
+                Post.destroy({ where: { post_id: req.params.post_id } })
+                        .then(() => res.status(200).json({ message: 'Post supprimée !' }))
+                        .catch(error => res.status(400).json({ error }));
+            }
         })
         .catch(error => res.status(500).json({ error }));
 };
 
-// Affichage d'une media
-exports.getMedia = (req, res, next) => {
-    Media.findOne({ media_id: req.params.media_id })
-        .then(media => res.status(200).json(media))
+// Affichage d'un post
+exports.getPost = (req, res, next) => {
+    Post.findOne({ where: { post_id: req.params.post_id }, include: User })
+        .then(post => res.status(200).json(post))
         .catch(error => res.status(404).json({ error }));
 };
 
-// Affichage de toutes les medias
-exports.getMedias = (req, res, next) => {
-    Media.find()
-        .then(medias => res.status(200).json(medias))
+// Affichage de tous les posts
+exports.getPosts = (req, res, next) => {
+    Post.findAll({ include: User })
+        .then(posts => res.status(200).json(posts))
         .catch(error => res.status(400).json({ error }));
 };
 
-// Like et dislike d'une media
-exports.likeMedia = (req, res, next) => {
+// Like et dislike d'une post
+exports.likePost = (req, res, next) => {
     // Ajout des constantes necessaires
     const user_id = req.body.user_id;
     const like = req.body.like;
-    const media_id = req.params.media_id;
+    const post_id = req.params.post_id;
     // Recherche de la media sélectionnée
-    Media.findOne({ media_id: media_id })
-        .then(media => {
+    Post.findOne({ where: { post_id: post_id } })
+        .then(post => {
             // Ajout des variables pour récupérer les infos dans la base de donnée
-            let users_liked = media.users_liked;
-            let likes = media.likes;
-            let users_disliked = media.users_disliked;
-            let dislikes = media.dislikes;
+            let users_liked = post.users_liked;
+            let likes = post.likes;
+            let users_disliked = post.users_disliked;
+            let dislikes = post.dislikes;
 
             // L'utilisateur like la media
             if (like == 1) {
@@ -112,7 +138,7 @@ exports.likeMedia = (req, res, next) => {
                 }
             }
             // Mise à jour des champs nécessaires pour les likes et dislike
-            Media.updateOne({ media_id: media_id },
+            Post.updateOne({ where: { post_id: post_id } },
                 { dislikes: dislikes, users_disliked: users_disliked, likes: likes, users_liked: users_liked }
             )
                 .then(() => res.status(200).json({ message: "L'utilisateur a mis un like ! " }))

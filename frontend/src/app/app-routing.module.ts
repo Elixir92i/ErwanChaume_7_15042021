@@ -7,6 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './services/auth-guard.service';
 import { ProfileUpdateComponent } from './profile-update/profile-update.component';
 import { TimelineComponent } from './timeline/timeline.component';
+import { SinglePostComponent } from './single-post/single-post.component';
 
 
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'profile-update', component: ProfileUpdateComponent, canActivate: [AuthGuard] },
   { path: 'timeline', component: TimelineComponent, canActivate: [AuthGuard] },
+  { path: 'timeline/:post_id', component: SinglePostComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

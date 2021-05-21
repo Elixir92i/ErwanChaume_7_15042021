@@ -6,17 +6,16 @@ const mysql = require('mysql2');
 require('dotenv').config();
 
 const usersRoutes = require('./routes/users');
-const messageRoutes = require('./routes/postMessages');
-const mediaRoutes = require('./routes/postMedias');
+const postRoutes = require('./routes/posts');
+
 
 //
 const sequelize = require('./utils/database');
 const User = require('./models/User');
-const PostMedia = require('./models/postMedia');
-const PostMessage = require('./models/postMessage');
+const Post = require('./models/post');
 const Comment = require('./models/comment');
 const Like = require('./models/like');
-const Dislike = require('./models/dislike');
+
 
 sequelize.sync();
 
@@ -36,7 +35,7 @@ app.use(bodyParser.json());
 app.use('/api/users', usersRoutes);
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
-app.use('/api/postMedia', mediaRoutes);
-app.use('/api/postMessage', messageRoutes);
+app.use('/images/medias', express.static(path.join(__dirname, 'images/medias')));
+app.use('/api/post', postRoutes);
 
 module.exports = app;

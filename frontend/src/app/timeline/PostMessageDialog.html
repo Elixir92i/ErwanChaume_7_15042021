@@ -1,0 +1,14 @@
+<mat-dialog-content>
+  <form [formGroup]="messageForm" *ngIf="!loading">
+    <div class="form-group">
+      <label for="title">Titre</label>
+      <input type="text" class="form-control" id="title" formControlName="title">
+      <label for="content">Message</label>
+      <input type="text" class="form-control" id="content" formControlName="content">
+    </div>
+    <button mat-raised-button color="primary" (click)="onMessage()">Publier</button>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Quitter</button>
+</mat-dialog-actions>

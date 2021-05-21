@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { PostMedia } from '../models/post-media.model';
-import { PostMessage } from '../models/post-message.model';
+import { Post } from '../models/post.model';
 import { User } from '../models/user.model';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from './auth.service';
@@ -11,25 +10,24 @@ import { AuthService } from './auth.service';
 })
 export class PostService {
 
-  medias$ = new Subject<PostMedia[]>();
-  messages$ = new Subject<PostMessage[]>();
+  posts$ = new Subject<Post[]>();
 
   constructor(private http: HttpClient,
     private auth: AuthService,) { }
 
-  getMedias() {
-    this.http.get('http://localhost:3000/api/postMedia/timeline').subscribe(
-      (medias: PostMedia[]) => {
-        this.medias$.next(medias);
+  getPosts() {
+    this.http.get('http://localhost:3000/api/post/timeline').subscribe(
+      (posts: Post[]) => {
+        this.posts$.next(posts);
       },
       (error) => {
-        this.medias$.next([]);
+        this.posts$.next([]);
         console.error(error);
       }
     );
   }
 
-  getMessages() {
+  /*getMessages() {
     this.http.get('http://localhost:3000/api/postMessage/timeline').subscribe(
       (messages: PostMessage[]) => {
         this.messages$.next(messages);
@@ -39,13 +37,13 @@ export class PostService {
         console.error(error);
       }
     );
-  }
+  }*/
 
-  getMediaById(media_id: string) {
+  getPostById(post_id: string) {
     return new Promise((resolve, reject) => {
-      this.http.get('http://localhost:3000/api/postMedia/timeline' + media_id).subscribe(
-        (media: PostMedia) => {
-          resolve(media);
+      this.http.get('http://localhost:3000/api/post/timeline/' + post_id).subscribe(
+        (post: Post) => {
+          resolve(post);
         },
         (error) => {
           reject(error);
@@ -54,7 +52,7 @@ export class PostService {
     });
   }
 
-  getMessageById(message_id: string) {
+  /*getMessageById(message_id: string) {
     return new Promise((resolve, reject) => {
       this.http.get('http://localhost:3000/api/postMessage/timeline' + message_id).subscribe(
         (message: PostMessage) => {
@@ -65,12 +63,12 @@ export class PostService {
         }
       );
     });
-  }
+  }*/
 
-  likeMedia(media_id: string, like: boolean) {
+  likePost(post_id: string, like: boolean) {
     return new Promise((resolve, reject) => {
       this.http.post(
-        'http://localhost:3000/api/postMedia/timeline/' + media_id + '/like',
+        'http://localhost:3000/api/post/timeline/' + post_id + '/like',
         {
           user_id: this.auth.getUserId(),
           like: like ? 1 : 0
@@ -86,7 +84,7 @@ export class PostService {
     });
   }
 
-  likeMessage(message_id: string, like: boolean) {
+  /*likeMessage(message_id: string, like: boolean) {
     return new Promise((resolve, reject) => {
       this.http.post(
         'http://localhost:3000/api/postMessage/timeline/' + message_id + '/like',
@@ -103,12 +101,12 @@ export class PostService {
           }
         );
     });
-  }
+  }*/
 
-  dislikeMedia(media_id: string, dislike: boolean) {
+  dislikePost(post_id: string, dislike: boolean) {
     return new Promise((resolve, reject) => {
       this.http.post(
-        'http://localhost:3000/api/postMedia/timeline' + media_id + '/like',
+        'http://localhost:3000/api/post/timeline' + post_id + '/like',
         {
           user_id: this.auth.getUserId(),
           like: dislike ? -1 : 0
@@ -124,7 +122,7 @@ export class PostService {
     });
   }
 
-  dislikeMessage(message_id: string, dislike: boolean) {
+  /*dislikeMessage(message_id: string, dislike: boolean) {
     return new Promise((resolve, reject) => {
       this.http.post(
         'http://localhost:3000/api/postMessage/timeline' + message_id + '/like',
@@ -141,14 +139,14 @@ export class PostService {
           }
         );
     });
-  }
+  }*/
 
-  createMedia(media: PostMedia, image: File) {
+  createMedia(post: Post, image: File) {
     return new Promise((resolve, reject) => {
       const formData = new FormData();
-      formData.append('media', JSON.stringify(media));
+      formData.append('post', JSON.stringify(post));
       formData.append('image', image);
-      this.http.post('http://localhost:3000/api/postMedia/timeline', formData).subscribe(
+      this.http.post('http://localhost:3000/api/post/timeline/media', formData).subscribe(
         (response: { message: string }) => {
           resolve(response);
         },
@@ -159,9 +157,9 @@ export class PostService {
     });
   }
 
-  createMessage(message: PostMessage) {
+  createMessage(post: Post) {
     return new Promise((resolve, reject) => {
-      this.http.post('http://localhost:3000/api/postMessage/timeline', message).subscribe(
+      this.http.post('http://localhost:3000/api/post/timeline/message', post).subscribe(
         (response: { message: string }) => {
           resolve(response);
         },
@@ -173,9 +171,9 @@ export class PostService {
   }
 
 
-  deleteMedia(media_id: string) {
+  deletePost(post_id: string) {
     return new Promise((resolve, reject) => {
-      this.http.delete('http://localhost:3000/api/postMedia/timeline/' + media_id).subscribe(
+      this.http.delete('http://localhost:3000/api/post/timeline/' + post_id).subscribe(
         (response: { message: string }) => {
           resolve(response);
         },
@@ -187,7 +185,7 @@ export class PostService {
   }
 
 
-  deleteMessage(message_id: string) {
+  /*deleteMessage(message_id: string) {
     return new Promise((resolve, reject) => {
       this.http.delete('http://localhost:3000/api/postMessage/timeline/' + message_id).subscribe(
         (response: { message: string }) => {
@@ -198,6 +196,6 @@ export class PostService {
         }
       );
     });
-  }
+  }*/
 }
 
