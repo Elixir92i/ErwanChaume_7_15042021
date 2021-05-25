@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Post } from '../models/post.model';
-import { PostService } from '../services/post.service';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { Post } from '../models/post.model';
 import { User } from '../models/user.model';
+import { PostService } from '../services/post.service';
+import { AuthService } from '../services/auth.service';
+
 
 @Component({
   selector: 'app-single-post',
@@ -21,7 +22,7 @@ export class SinglePostComponent implements OnInit {
   errorMessage: string;
   user: User;
 
-  constructor(private posts: PostService,
+  constructor(public posts: PostService,
     private route: ActivatedRoute,
     private auth: AuthService,
     private router: Router) { }
@@ -35,11 +36,11 @@ export class SinglePostComponent implements OnInit {
           (post: Post) => {
             this.post = post;
             this.loading = false;
-            /*if (post.users_liked.find(user => user === this.user_id)) {
+            if (post.users_liked.find(user => user === this.user_id)) {
               this.liked = true;
             } else if (post.users_disliked.find(user => user === this.user_id)) {
               this.disliked = true;
-            }*/
+            }
           }
         );
       }
@@ -50,16 +51,24 @@ export class SinglePostComponent implements OnInit {
           console.log(this.auth.getUserId());
           this.auth.getUserById(this.auth.getUserId()).then(
             (user: User) => {
-              console.log(user);
               this.user = user;
               this.loading = false;
             }
           );
         }
       );
+      
   }
 
-  /*onLike() {
+  get getListData(){
+    return Object.keys(this.post)
+  }
+
+  hack(val) {
+    return Array.from(val);
+  }
+
+  onLike() {
     if (this.disliked) {
       return 0;
     }
@@ -75,9 +84,9 @@ export class SinglePostComponent implements OnInit {
         }
       }
     );
-  }*/
+  }
 
-  /*onDislike() {
+  onDislike() {
     if (this.liked) {
       return 0;
     }
@@ -93,7 +102,7 @@ export class SinglePostComponent implements OnInit {
         }
       }
     );
-  }*/
+  }
 
   onBack() {
     this.router.navigate(['/timeline']);
@@ -105,7 +114,7 @@ export class SinglePostComponent implements OnInit {
       (response: { message: string }) => {
         console.log(response.message);
         this.loading = false;
-        //this.router.navigate(['/timeline']);
+        this.router.navigate(['/timeline']);
       }
     ).catch(
       (error) => {

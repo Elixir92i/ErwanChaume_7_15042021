@@ -27,7 +27,7 @@ const Like = sequelize.define('like', {
   
         // For uniquely identify user.
         primaryKey:true
-    }
+    }, 
 })
   
 // Exporting User, using this constant

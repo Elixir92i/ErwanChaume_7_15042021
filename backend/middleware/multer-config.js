@@ -13,7 +13,6 @@ const storage = multer.diskStorage({
     // Dossier de destination
     destination: (req, file, callback) => {
         callback(null, 'images')
-        callback(null, 'images/medias')
     },
     // Modification du nom des images reçu lors de l'ajout d'une sauce
     filename: (req, file, cb) => {

@@ -5,20 +5,21 @@ const router = express.Router();
 
 // Importation du controller user
 const postCtrl = require('../controllers/post');
+const likeCtrl = require('../controllers/like')
 const auth = require('../middleware/auth');
-const multerMedia = require('../middleware/multer-config-medias');
+const multerMedias = require('../middleware/multer-config-medias');
 
 // Route création d'un Post
-router.post('/timeline/message', auth, multerMedia, postCtrl.createPostMessage);
+router.post('/timeline/message', auth, multerMedias, postCtrl.createPostMessage);
 // Route création d'un Post
-router.post('/timeline/media', auth, multerMedia, postCtrl.createPostMedia);
+router.post('/timeline/media', auth, multerMedias, postCtrl.createPostMedia);
 // Route supression d'un Post
-router.delete('/timeline/:post_id', auth, multerMedia, postCtrl.deletePost);
+router.delete('/timeline/:post_id', auth, multerMedias, postCtrl.deletePost);
 // Route récupération d'un Post
-router.get('/timeline/:post_id', auth, multerMedia, postCtrl.getPost);
+router.get('/timeline/:post_id', auth, multerMedias, postCtrl.getPost);
 // Route récupération de tous les Posts
-router.get('/timeline/', auth, multerMedia, postCtrl.getPosts);
+router.get('/timeline/', auth, multerMedias, postCtrl.getPosts);
 // Route de like ou dislike d'un Post
-router.post('/timeline/:post_id/like', auth, postCtrl.likePost);
+router.post('/timeline/:post_id/like', auth, likeCtrl.likePost);
 
 module.exports = router;

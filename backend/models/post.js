@@ -33,10 +33,7 @@ const Post = sequelize.define('post', {
     title: { type: Sequelize.STRING, allowNull:false },
     mediaUrl: { type: Sequelize.STRING, allowNull:true },
     content: { type: Sequelize.STRING, allowNull: true },
-    likes: {type: Sequelize.INTEGER, allowNull: true},
-    users_liked:{ type: Sequelize.STRING, allowNull: true},
-    dislikes: {type: Sequelize.INTEGER, allowNull: true},
-    users_disliked:{ type: Sequelize.STRING, allowNull: true},
+    
     
     // dates => current time
     myDate: { type: Sequelize.DATE, 

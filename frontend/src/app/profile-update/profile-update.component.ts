@@ -52,22 +52,23 @@ export class ProfileUpdateComponent implements OnInit {
       image: [this.user.imageUrl, Validators.required],
       //password: [null, Validators.required],
       email: [this.user.email, Validators.required],
-      password: ['', [Validators.required]],
-      confirmPassword: ['', [Validators.required]]}), 
-      { validator: this.ConfirmedValidator('password', 'confirm_password')}
-    };
+      //password: ['', [Validators.required]],
+      //confirmPassword: ['', [Validators.required]]}), 
+      //{ validator: this.ConfirmedValidator('password', 'confirm_password')}
+    });
     /*this.imagePreview = this.user.imageUrl;
     this.updateForm = this.formBuilder.group({
       password: ['', [Validators.required]],
       confirmPassword: ['', [Validators.required]]}, 
       { validator: this.ConfirmedValidator('password', 'confirm_password') })
   }*/
+}
 
   onUpdate() {
     this.loading = true;
     const updateUser = new User();
     updateUser.email = this.updateForm.get('email').value;
-    updateUser.password = this.updateForm.get('password').value;
+    //updateUser.password = this.updateForm.get('password').value;
     updateUser.firstname = this.updateForm.get('firstname').value;
     updateUser.lastname = this.updateForm.get('lastname').value;
     updateUser.user_id = this.auth.getUserId();

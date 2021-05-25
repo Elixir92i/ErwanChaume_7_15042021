@@ -19,7 +19,7 @@
         <!--<button mat-raised-button color="primary" (click)="imageInput.click()">ADD IMAGE</button>-->
         <img [src]="imagePreview" *ngIf="imagePreview" style="max-height: 100px;display:block;margin-top:10px"><br />
 
-        <div class="form-group">
+        <!--<div class="form-group">
           <label for="password">Password</label>
           <input 
               formControlName="password"
@@ -42,7 +42,7 @@
               <div *ngIf="f.confirmPassword.errors.required">Password is required.</div>
               <div *ngIf="f.confirmPassword.errors.confirmedValidator">Password and Confirm Password must be match.</div>
           </div>
-      </div>
+      </div>-->
 
       </div>
     </form>
