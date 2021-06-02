@@ -8,6 +8,8 @@ export class AuthGuard implements CanActivate {
 
   constructor(private auth: AuthService,
               private router: Router) {}
+  
+  isLoggedin: boolean = false;
 
   canActivate(route: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): Observable<boolean> {
@@ -17,8 +19,12 @@ export class AuthGuard implements CanActivate {
           (auth) => {
             if (localStorage.getItem("Users")) {
               observer.next(true);
+              this.isLoggedin = true;
+              return this.isLoggedin;
             } else {
               this.router.navigate(['/login']);
+              this.isLoggedin = false;
+              return this.isLoggedin;
             }
           }
         );

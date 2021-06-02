@@ -1,6 +1,7 @@
 // Importation du modèle des medias
 const Post = require('../models/post');
 const User = require('../models/User');
+const Like = require('../models/like');
 const user = require('./user')
 // Importation du module fs 
 const fs = require('fs');
@@ -42,8 +43,6 @@ exports.createPostMessage = (req, res, next) => {
         .catch(error => res.status(400).json({ error }));
 };
 
-
-
 // Supprimer un media
 exports.deletePost = (req, res, next) => {
     // Recherche de la media grâce à son ID
@@ -71,14 +70,14 @@ exports.deletePost = (req, res, next) => {
 
 // Affichage d'un post
 exports.getPost = (req, res, next) => {
-    Post.findOne({ include: User, where: { post_id: req.params.post_id } })
+    Post.findOne({ include:  {all: true}, where: { post_id: req.params.post_id } })
         .then(post => res.status(200).json(post))
         .catch(error => res.status(404).json({ error }));
 };
 
 // Affichage de tous les posts
 exports.getPosts = (req, res, next) => {
-    Post.findAll({ include: User })
+    Post.findAll({ include: {all: true} })
         .then(posts => res.status(200).json(posts))
         .catch(error => res.status(400).json({ error }));
 };

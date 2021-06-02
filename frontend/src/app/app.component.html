@@ -1,11 +1,10 @@
 <!--<app-header></app-header>-->
 <div class="container">
   <nav>
-    
-    <a routerLink="/signup">Signup</a>
-    <a routerLink="/login">Login</a>
-    
-    <a routerLink="/timeline">Fil d'actualité</a>
+    <a routerLink="/signup" *ngIf="!AuthGuard.isLoggedin">Signup</a>
+    <a routerLink="/login" *ngIf="!AuthGuard.isLoggedin">Login</a>
+    <a routerLink="/timeline" *ngIf="AuthGuard.isLoggedin">Fil d'actualité</a>
+    <a routerLink="/logout" *ngIf="AuthGuard.isLoggedin" (click)="onLogout()">Se déconnecter</a>
   </nav>
   <router-outlet></router-outlet>
 </div>

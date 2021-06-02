@@ -2,33 +2,20 @@
   <mat-card-header>
     <img mat-card-avatar class="example-header-image" [src]="post.user.imageUrl">
     <mat-card-title>{{ post.user.firstname }} {{ post.user.lastname }}</mat-card-title>
-    <mat-card-subtitle>{{ post.title }}</mat-card-subtitle>
   </mat-card-header>
+  <h1>{{ post.title }} </h1>
+  
   <img mat-card-image [src]="post.mediaUrl" alt="">
   <mat-card-content>
     <p>
       {{ post.content }}
     </p>
-    <div class="like-buttons" *ngIf="!likePending">
-      <div class="likes">
-        <button [ngClass]="{ 'fas liked': liked, 'far': !liked, 'disabled': disliked }" class="like fa-thumbs-up fa-lg"
-          (click)="onLike()">like</button>
-        <span>{{ post.likes }}</span>
-      </div>
-      <!--<div class="dislikes">
-        <i [ngClass]="{ 'fas disliked': disliked, 'far': !disliked, 'disabled': liked }"
-          class="dislike fa-thumbs-down fa-lg" (click)="onDislike()"></i>
-        <span>{{ post.dislikes }}</span>
-      </div>-->
-    </div>
-    <div class="like-pending" *ngIf="likePending">
-      <mat-spinner class="white-spinner"></mat-spinner>
-    </div>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-button>LIKE</button>
-    <button mat-raised-button (click)="onBack()">BACK</button>
-    <button mat-raised-button color="warn" (click)="onDelete()">DELETE</button>
+    <div *ngIf="post.likes">{{ post.likes.length }}</div>
+    <button mat-button (click)="onLike()">Like</button>
+    <button mat-raised-button (click)="onBack()">Retour</button>
+    <button mat-raised-button color="warn" (click)="onDelete()" *ngIf="user_id === post.user_id">Supprimer</button>
   </mat-card-actions>
 
 </mat-card>

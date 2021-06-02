@@ -31,9 +31,6 @@ const Comment = sequelize.define('comment', {
   
     // Column-2, name
     commentContent: {type: Sequelize.STRING, allowNull: false},
-    message_id:{ type: Sequelize.INTEGER, allowNull: true},
-    media_id:{ type: Sequelize.INTEGER, allowNull: true},
-    
     
     // dates => current time
     myDate: { type: Sequelize.DATE, 

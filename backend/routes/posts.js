@@ -6,6 +6,7 @@ const router = express.Router();
 // Importation du controller user
 const postCtrl = require('../controllers/post');
 const likeCtrl = require('../controllers/like')
+const commentCtrl = require('../controllers/comment')
 const auth = require('../middleware/auth');
 const multerMedias = require('../middleware/multer-config-medias');
 
@@ -19,7 +20,11 @@ router.delete('/timeline/:post_id', auth, multerMedias, postCtrl.deletePost);
 router.get('/timeline/:post_id', auth, multerMedias, postCtrl.getPost);
 // Route récupération de tous les Posts
 router.get('/timeline/', auth, multerMedias, postCtrl.getPosts);
-// Route de like ou dislike d'un Post
+// Route de like d'un Post
 router.post('/timeline/:post_id/like', auth, likeCtrl.likePost);
+// Route pour créer un commentaire
+router.post('/timeline/:post_id/comment', auth, commentCtrl.createComment);
+// Route pour supprimer un commentaire
+router.delete('/timeline/:post_id/comment/:comment_id', auth, commentCtrl.deleteComment);
 
 module.exports = router;

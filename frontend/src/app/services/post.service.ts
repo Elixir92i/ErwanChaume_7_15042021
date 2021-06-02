@@ -26,25 +26,14 @@ export class PostService {
       }
     );
   }
-  /*getPost(post_id: string) {
-    this.http.get('http://localhost:3000/api/post/timeline', post_id).subscribe(
-      (posts: Post[]) => {
-        this.post$.next(posts);
-      },
-      (error) => {
-        this.post$.next([]);
-        console.error(error);
-      }
-    );
-  }*/
 
-  /*getMessages() {
-    this.http.get('http://localhost:3000/api/postMessage/timeline').subscribe(
-      (messages: PostMessage[]) => {
-        this.messages$.next(messages);
+  /*getLikes() {
+    this.http.get('http://localhost:3000/api/post/timeline').subscribe(
+      (posts: Post[]) => {
+        this.posts$.next(posts);
       },
       (error) => {
-        this.messages$.next([]);
+        this.posts$.next([]);
         console.error(error);
       }
     );
@@ -63,30 +52,16 @@ export class PostService {
     });
   }
 
-  /*getMessageById(message_id: string) {
-    return new Promise((resolve, reject) => {
-      this.http.get('http://localhost:3000/api/postMessage/timeline' + message_id).subscribe(
-        (message: PostMessage) => {
-          resolve(message);
-        },
-        (error) => {
-          reject(error);
-        }
-      );
-    });
-  }*/
-
-  likePost(post_id: string, like: boolean) {
+  likePost(post_id: string) {
     return new Promise((resolve, reject) => {
       this.http.post(
         'http://localhost:3000/api/post/timeline/' + post_id + '/like',
         {
           user_id: this.auth.getUserId(),
-          like: like ? 1 : 0
         })
         .subscribe(
           (response: { message: string }) => {
-            resolve(like);
+            resolve(response);
           },
           (error) => {
             reject(error);
@@ -94,63 +69,6 @@ export class PostService {
         );
     });
   }
-
-  /*likeMessage(message_id: string, like: boolean) {
-    return new Promise((resolve, reject) => {
-      this.http.post(
-        'http://localhost:3000/api/postMessage/timeline/' + message_id + '/like',
-        {
-          user_id: this.auth.getUserId(),
-          like: like ? 1 : 0
-        })
-        .subscribe(
-          (response: { message: string }) => {
-            resolve(like);
-          },
-          (error) => {
-            reject(error);
-          }
-        );
-    });
-  }*/
-
-  dislikePost(post_id: string, dislike: boolean) {
-    return new Promise((resolve, reject) => {
-      this.http.post(
-        'http://localhost:3000/api/post/timeline' + post_id + '/like',
-        {
-          user_id: this.auth.getUserId(),
-          like: dislike ? -1 : 0
-        })
-        .subscribe(
-          (response: { message: string }) => {
-            resolve(dislike);
-          },
-          (error) => {
-            reject(error);
-          }
-        );
-    });
-  }
-
-  /*dislikeMessage(message_id: string, dislike: boolean) {
-    return new Promise((resolve, reject) => {
-      this.http.post(
-        'http://localhost:3000/api/postMessage/timeline' + message_id + '/like',
-        {
-          user_id: this.auth.getUserId(),
-          like: dislike ? -1 : 0
-        })
-        .subscribe(
-          (response: { message: string }) => {
-            resolve(dislike);
-          },
-          (error) => {
-            reject(error);
-          }
-        );
-    });
-  }*/
 
   createMedia(post: Post, image: File) {
     return new Promise((resolve, reject) => {
@@ -181,7 +99,6 @@ export class PostService {
     });
   }
 
-
   deletePost(post_id: string) {
     return new Promise((resolve, reject) => {
       this.http.delete('http://localhost:3000/api/post/timeline/' + post_id).subscribe(
@@ -194,19 +111,5 @@ export class PostService {
       );
     });
   }
-
-
-  /*deleteMessage(message_id: string) {
-    return new Promise((resolve, reject) => {
-      this.http.delete('http://localhost:3000/api/postMessage/timeline/' + message_id).subscribe(
-        (response: { message: string }) => {
-          resolve(response);
-        },
-        (error) => {
-          reject(error);
-        }
-      );
-    });
-  }*/
 }
 

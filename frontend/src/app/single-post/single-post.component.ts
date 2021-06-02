@@ -34,72 +34,40 @@ export class SinglePostComponent implements OnInit {
       (params) => {
         this.posts.getPostById(params.post_id).then(
           (post: Post) => {
+            console.log(post)
             this.post = post;
             this.loading = false;
-            if (post.users_liked.find(user => user === this.user_id)) {
-              this.liked = true;
-            } else if (post.users_disliked.find(user => user === this.user_id)) {
-              this.disliked = true;
-            }
           }
         );
       }
     );
     this.user_id = this.auth.getUserId();
-      this.route.params.subscribe(
-        (params) => {
-          console.log(this.auth.getUserId());
-          this.auth.getUserById(this.auth.getUserId()).then(
-            (user: User) => {
-              this.user = user;
-              this.loading = false;
-            }
-          );
-        }
-      );
-      
-  }
-
-  get getListData(){
-    return Object.keys(this.post)
-  }
-
-  hack(val) {
-    return Array.from(val);
-  }
-
-  onLike() {
-    if (this.disliked) {
-      return 0;
-    }
-    this.likePending = true;
-    this.posts.likePost(this.post.post_id, !this.liked).then(
-      (liked: boolean) => {
-        this.likePending = false;
-        this.liked = liked;
-        if (liked) {
-          this.post.likes++;
-        } else {
-          this.post.likes--;
-        }
+    this.route.params.subscribe(
+      (params) => {
+        console.log(this.auth.getUserId());
+        this.auth.getUserById(this.auth.getUserId()).then(
+          (user: User) => {
+            this.user = user;
+            this.loading = false;
+          }
+        );
       }
     );
   }
 
-  onDislike() {
-    if (this.liked) {
-      return 0;
-    }
-    this.likePending = true;
-    this.posts.dislikePost(this.post.post_id, !this.disliked).then(
-      (disliked: boolean) => {
-        this.likePending = false;
-        this.disliked = disliked;
-        if (disliked) {
-          this.post.dislikes++;
-        } else {
-          this.post.dislikes--;
-        }
+  onLike() {
+    this.loading = true;
+    this.posts.likePost(this.post.post_id).then(
+      (response: { message: string }) => {
+        console.log(response.message);
+        this.loading = false;
+        window.location.reload();
+      }
+    ).catch(
+      (error) => {
+        this.loading = false;
+        this.errorMessage = error.message;
+        console.error(error);
       }
     );
   }

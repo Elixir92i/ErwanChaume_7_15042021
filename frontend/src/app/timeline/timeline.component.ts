@@ -67,6 +67,23 @@ export class TimelineComponent implements OnInit {
     this.router.navigate(['timeline/', post_id]);
   }
 
+  onLike(post_id: string) {
+    this.loading = true;
+    this.post.likePost(post_id).then(
+      (response: { message: string }) => {
+        console.log(response.message);
+        this.loading = false;
+        window.location.reload();
+      }
+    ).catch(
+      (error) => {
+        this.loading = false;
+        //this.errorMessage = error.message;
+        console.error(error);
+      }
+    );
+  }
+
   openMediaDialog() {
     const dialogRef = this.dialog.open(PostMediaDialog, { restoreFocus: false });
     dialogRef.afterClosed().subscribe(() => this.menuTrigger.focus());
