@@ -5,6 +5,7 @@ const router = express.Router();
 
 // Importation du controller user
 const userCtrl = require('../controllers/user');
+const postCtrl = require('../controllers/post');
 const auth = require('../middleware/auth');
 const multer = require('../middleware/multer-config');
 
@@ -14,11 +15,11 @@ router.post('/signup', userCtrl.signup);
 router.post('/login', userCtrl.login);
 // Route modification d'un utilisateur
 router.put('/user-profile/:user_id', auth, multer, userCtrl.update);
+// Route de modification du mot de passe
+router.put('/user-profile/:user_id/password', auth, multer, userCtrl.updatePassword);
 // Route supression d'un utilisateur
 router.delete('/user-profile/:user_id', auth, multer, userCtrl.delete);
 // Route récupération d'un utilisateur
 router.get('/user-profile/:user_id', auth, multer, userCtrl.getUser);
-// Route récupération de tous les utilisateurs
-//router.get('/', auth, multer, userCtrl.getUsers);
 
 module.exports = router;

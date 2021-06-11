@@ -1,0 +1,96 @@
+h1 {
+    display: flex;
+    justify-content: center;
+    font-weight: normal;
+    margin-top: 30px;
+    span {
+        font-weight: bold;
+    }
+}
+
+.profile {
+    width: 800px;
+    margin: auto;
+    p{
+        font-size: 18px;
+    }
+    
+}
+
+h2 {
+    position: relative;
+}
+h2::after {
+    content: "";
+    background-color: #fd2d01;
+    width: 40px;
+    height: 3px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+.allProfile {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    .infos {
+        font-weight: bolder;
+        font-size: 18px;
+    }
+    p {
+        position: relative;
+        p::after {
+            content: "";
+            background-color: black;
+            width: 40px;
+            height: 3px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+    }
+
+    .imgProfile {
+        display: flex;
+        img {
+            width: 200px;
+            height: 200px;
+            border-radius: 100px;
+            object-fit: cover;
+        }
+    }
+}
+
+.example-card {
+    max-width: 800px;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.count {
+    font-size: 16px;
+}
+.likecount {
+    display: flex;
+}
+
+.mat-card-content {
+    margin-left: 4px;
+    h1 {
+        margin-bottom: 0px;
+    }
+    p {
+        font-size: 18px;
+    }
+}
+
+.infoPost {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .infoLike {
+        display: flex;
+    }
+}

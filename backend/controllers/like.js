@@ -5,9 +5,9 @@ const user = require('./user');
 const Like = require('../models/like');
 
 // hasMany
-User.hasMany(Like, { foreignKey: 'user_id' });
+User.hasMany(Like, { foreignKey: 'user_id', onDelete: 'cascade', hooks:true});
 Like.belongsTo(User, { foreignKey: 'user_id' });
-Post.hasMany(Like, { foreignKey: 'post_id' });
+Post.hasMany(Like, { foreignKey: 'post_id', onDelete: 'cascade', hooks:true});
 Like.belongsTo(Post, { foreignKey: 'post_id' });
 
 // Like d'un post

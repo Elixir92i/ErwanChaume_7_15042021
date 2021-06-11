@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
@@ -13,6 +13,8 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loading: boolean;
   errorMsg: string;
+  hide = true;
+  email = new FormControl('', [Validators.required, Validators.email]);
 
   constructor(private formBuilder: FormBuilder,
               private auth: AuthService,
@@ -25,6 +27,14 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  getErrorMessage() {
+    if (this.email.hasError('required')) {
+      return 'Ce champs ne doit pas être vide';
+    }
+
+    return this.email.hasError('email') ? 'Veuillez entrer un mail valide' : '';
+  }
+
   onLogin() {
     this.loading = true;
     const email = this.loginForm.get('email').value;
@@ -32,7 +42,7 @@ export class LoginComponent implements OnInit {
     this.auth.loginUser(email, password).then(
       () => {
         this.loading = false;
-        this.router.navigate(['/home']);
+        this.router.navigate(['/timeline']);
       }
     ).catch(
       (error) => {

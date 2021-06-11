@@ -1,5 +1,6 @@
 import { User } from './user.model';
 import { Like } from './like.model';
+import { Comment } from './comment.model';
 export class Post {
     post_id: string;
     user_id: string;
@@ -8,4 +9,5 @@ export class Post {
     content: string;
     user: User;
     likes: Like;
+    comments: Comment;
 }

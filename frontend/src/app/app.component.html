@@ -1,10 +1,45 @@
 <!--<app-header></app-header>-->
 <div class="container">
-  <nav>
-    <a routerLink="/signup" *ngIf="!AuthGuard.isLoggedin">Signup</a>
-    <a routerLink="/login" *ngIf="!AuthGuard.isLoggedin">Login</a>
-    <a routerLink="/timeline" *ngIf="AuthGuard.isLoggedin">Fil d'actualité</a>
-    <a routerLink="/logout" *ngIf="AuthGuard.isLoggedin" (click)="onLogout()">Se déconnecter</a>
-  </nav>
+  <mat-toolbar>
+
+
+    <a routerLink="/timeline" class="logo"><img src="../assets/logo-navbar-color.png" alt=""></a>
+    <div class="hover-info homeb">
+      <a mat-icon-button class="example-icon home" routerLink="/timeline" *ngIf="AuthGuard.isLoggedin">
+        <mat-icon>home</mat-icon>
+      </a>
+      <div class="info home-info">Fil d'actualité</div>
+    </div>
+
+    <div class="hover-info accountb">
+      <a mat-icon-button class="example-icon account" routerLink="/user-profile" *ngIf="AuthGuard.isLoggedin">
+        <mat-icon>account_circle</mat-icon>
+      </a>
+      <div class="info account-info">Profil</div>
+    </div>
+
+    <div class="hover-info logoutb">
+      <a mat-icon-button class="example-icon logout" routerLink="/logout" (click)="onLogout()"
+        *ngIf="AuthGuard.isLoggedin">
+        <mat-icon>logout</mat-icon>
+      </a>
+      <div class="info logout-info">Se déconnecter</div>
+    </div>
+
+    <div class="hover-info signupb" *ngIf="!AuthGuard.isLoggedin">
+      <a mat-icon-button class="example-icon signup" routerLink="/signup">
+        <mat-icon>person_add</mat-icon>
+      </a>
+      <div class="info signup-info">S'inscrire</div>
+    </div>
+
+    <div class="hover-info signinb" *ngIf="!AuthGuard.isLoggedin">
+      <a mat-icon-button class="example-icon signin" routerLink="/login" *ngIf="!AuthGuard.isLoggedin">
+        <mat-icon>login</mat-icon>
+      </a>
+      <div class=" info signin-info">Se connecter</div>
+    </div>
+
+  </mat-toolbar>
   <router-outlet></router-outlet>
 </div>

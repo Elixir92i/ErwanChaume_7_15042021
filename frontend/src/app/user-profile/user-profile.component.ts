@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../models/user.model';
@@ -21,7 +21,6 @@ export class UserProfileComponent implements OnInit {
 
 
   constructor(
-    private formBuilder: FormBuilder,
     private auth: AuthService,
     private route: ActivatedRoute,
     private router: Router) { }
@@ -40,6 +39,10 @@ export class UserProfileComponent implements OnInit {
           );
         }
       );
+    }
+
+    onClickPost(post_id: string) {
+      this.router.navigate(['timeline/', post_id]);
     }
 
     onModify() {

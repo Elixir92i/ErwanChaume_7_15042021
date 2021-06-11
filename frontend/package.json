@@ -22,6 +22,8 @@
     "@angular/platform-browser-dynamic": "~12.0.1",
     "@angular/router": "~12.0.1",
     "angular-validation-match": "^1.9.0",
+    "ngx-infinite-scroll": "^10.0.1",
+    "ngx-pagination": "^5.1.1",
     "rxjs": "^6.6.7",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4"

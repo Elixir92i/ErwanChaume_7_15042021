@@ -1,106 +1,77 @@
-<h2>Modifiez votre profil</h2>
+<div class="profileUpdate">
+  <div class="head">
+    <h1>Modifiez votre profil</h1>
+    <button mat-button (click)="goBackProfile()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </div>
+  <form *ngIf="updateForm && !loading" [formGroup]="updateForm">
+    <div class="form-group">
+      <div class="txtProfile">
+        <p><span class="infos">Prénom: </span>{{ user.firstname }}</p>
+        <mat-form-field appearance="fill">
+          <mat-label>{{ user.firstname }}</mat-label>
+          <input matInput type="firstname" class="form-control" id="firstname" formControlName="firstname" required>
+        </mat-form-field>
 
-<div>
-  <div>
-    <button (click)="goBackProfile()">Retourner au profil</button>
+        <p><span class="infos">Nom: </span>{{ user.lastname }}</p>
+        <mat-form-field appearance="fill">
+          <mat-label>{{ user.lastname }}</mat-label>
+          <input matInput type="lastname" class="form-control" id="lastname" formControlName="lastname" required>
+        </mat-form-field>
 
-    <form *ngIf="updateForm && !loading" [formGroup]="updateForm">
-      <div class="form-group">
-        <label for="firstname" required>Prénom: {{ user?.firstname }}</label><br />
-        <input type="firstname" class="form-control" id="firstname" formControlName="firstname"><br />
-
-        <label for="lastname" required>Nom: {{ user?.lastname }}</label><br />
-        <input type="lastname" class="form-control" id="lastname" formControlName="lastname"><br />
-
-        <label for="email" required>Email: {{ user?.email }}</label><br />
-        <input type="email" class="form-control" id="email" formControlName="email"><br />
-
-        <input type="file" accept="image/*" #imageInput (change)="onFileAdded($event)">
-        <!--<button mat-raised-button color="primary" (click)="imageInput.click()">ADD IMAGE</button>-->
-        <img [src]="imagePreview" *ngIf="imagePreview" style="max-height: 100px;display:block;margin-top:10px"><br />
-
-        <!--<div class="form-group">
-          <label for="password">Password</label>
-          <input 
-              formControlName="password"
-              id="password" 
-              type="password" 
-              class="form-control">
-          <div *ngIf="f.password.touched && f.password.invalid" class="alert alert-danger">
-              <div *ngIf="f.password.errors.required">Password is required.</div>
-          </div>
+        <p><span class="infos">Email: </span>{{ user.email }}</p>
+        <mat-form-field appearance="fill">
+          <mat-label>{{ user.email }}</mat-label>
+          <input matInput placeholder="{{ user.email }}" [formControl]="email" type="email" class="form-control"
+            id="email" formControlName="email" required>
+          <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+        <!--<p>Confirmez votre mot de passe</p>
+        <mat-form-field appearance="fill">
+          <mat-label>Mot de passe</mat-label>
+          <input matInput placeholder="mdp" [formControl]="password" type="password" class="form-control"
+            id="password" formControlName="password" required>
+        </mat-form-field>-->
       </div>
-
-      <div class="form-group">
-          <label for="confirmPassword">Confirm Password</label>
-          <input 
-              formControlName="confirmPassword"
-              id="confirmPassword" 
-              type="password" 
-              class="form-control">
-          <div *ngIf="f.confirmPassword.touched && f.confirmPassword.invalid" class="alert alert-danger">
-              <div *ngIf="f.confirmPassword.errors.required">Password is required.</div>
-              <div *ngIf="f.confirmPassword.errors.confirmedValidator">Password and Confirm Password must be match.</div>
-          </div>
-      </div>-->
-
+      <div class="imgProfile">
+        <p><span class="infos">Image: </span></p>
+        <div class="imgUpdate">
+          <img [src]=" user.imageUrl" alt="" *ngIf="!imagePreview">
+          <img [src]="imagePreview" *ngIf="imagePreview" style="max-height: 200px;display:block;margin-top:10px">
+          <input type="file" accept="image/*" #imageInput (change)="onFileAdded($event)">
+          <button mat-raised-button color="primary" (click)="imageInput.click()">Ajouter une image</button>
+        </div>
       </div>
+    </div>
+  </form>
+  <button mat-raised-button [disabled]="updateForm.invalid" (click)="onUpdate()">Éditer mon profil</button>
+  <div class="security">
+    <h1 class="head">Paramètre de sécurité</h1>
+    <form [formGroup]="passwordForm">
+      <p class="infos">Nouveau mot de passe</p>
+      <div class="inputField">
+        <mat-form-field appearance="fill">
+          <mat-label>Mot de passe</mat-label>
+          <input matInput placeholder="Mot de passe" type="password" class="form-control" id="password"
+            formControlName="password" required>
+          <mat-error *ngIf="passwordForm.hasError('required', 'password')">
+            Entrez votre nouveau mot de passe
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="confirm">
+          <mat-label>Confirmez mot de passe</mat-label>
+          <input matInput placeholder="Mot de passe" type="password" class="form-control"
+            formControlName="confirmPassword" [errorStateMatcher]="matcher" required>
+          <mat-error *ngIf="passwordForm.hasError('notSame')">
+            Les mots de passes ne correspondent pas
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <button mat-raised-button [disabled]="passwordForm.invalid" (click)="onUpdatePassword()">Éditer mon mot de
+        passe</button>
     </form>
-
-
+    <p class="infos" id="deleteAccount">Supprimer votre compte</p>
+    <button mat-raised-button color="warn" (click)="openDeleteDialog()">Supprimer votre profil</button>
   </div>
-  <div>
-    <button [disabled]="updateForm.invalid" (click)="onUpdate()">Éditer mon profil</button>
-    <button mat-raised-button color="warn" (click)="onDelete()">DELETE</button>
-  </div>
-
-  <!--<form [formGroup]="updateForm">
-            <mat-form-field>
-              <input matInput placeholder="New password" formControlName="password" required>
-              <mat-error *ngIf="updateForm.hasError('required', 'password')">
-                Please enter your new password
-              </mat-error>
-            </mat-form-field>
-          
-            <mat-form-field>
-              <input matInput placeholder="Confirm password" formControlName="confirmPassword" [errorStateMatcher]="matcher">
-              <mat-error *ngIf="updateForm.hasError('notSame')">
-                Passwords do not match
-              </mat-error>  
-            </mat-form-field>
-    </form>-->
-    <!--<div class="container">
-      <h1>Angular Validation Password and Confirm Password - ItSolutionStuff.com</h1>
-         
-      <form [formGroup]="updateForm">
-             
-          <div class="form-group">
-              <label for="password">Password</label>
-              <input 
-                  formControlName="password"
-                  id="password" 
-                  type="password" 
-                  class="form-control">
-              <div *ngIf="f.password.touched && f.password.invalid" class="alert alert-danger">
-                  <div *ngIf="f.password.errors.required">Password is required.</div>
-              </div>
-          </div>
-    
-          <div class="form-group">
-              <label for="confirmPassword">Confirm Password</label>
-              <input 
-                  formControlName="confirmPassword"
-                  id="confirmPassword" 
-                  type="password" 
-                  class="form-control">
-              <div *ngIf="f.confirmPassword.touched && f.confirmPassword.invalid" class="alert alert-danger">
-                  <div *ngIf="f.confirmPassword.errors.required">Password is required.</div>
-                  <div *ngIf="f.confirmPassword.errors.confirmedValidator">Password and Confirm Password must be match.</div>
-              </div>
-          </div>
-          
-          <button class="btn btn-primary" type="submit" (click)="onUpdate()">Submit</button>
-      </form>
-  </div>-->
-
 </div>

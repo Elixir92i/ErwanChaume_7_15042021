@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Post } from '../models/post.model';
 import { User } from '../models/user.model';
+import { Comment } from '../models/comment.model'
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from './auth.service';
 
@@ -26,18 +27,6 @@ export class PostService {
       }
     );
   }
-
-  /*getLikes() {
-    this.http.get('http://localhost:3000/api/post/timeline').subscribe(
-      (posts: Post[]) => {
-        this.posts$.next(posts);
-      },
-      (error) => {
-        this.posts$.next([]);
-        console.error(error);
-      }
-    );
-  }*/
 
   getPostById(post_id: string) {
     return new Promise((resolve, reject) => {
@@ -111,5 +100,30 @@ export class PostService {
       );
     });
   }
-}
 
+  createComment(comment: Comment, post_id: string) {
+    return new Promise((resolve, reject) => {
+      this.http.post('http://localhost:3000/api/post/timeline/' + post_id + '/comment', comment).subscribe(
+        (response: { message: string }) => {
+          resolve(response);
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
+  }
+
+  deleteComment(post_id: string, comment_id: string) {
+    return new Promise((resolve, reject) => {
+      this.http.delete('http://localhost:3000/api/post/timeline/' + post_id + '/comment/' + comment_id).subscribe(
+        (response: { message: string }) => {
+          resolve(response);
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
+  }
+}

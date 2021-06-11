@@ -1,9 +1,9 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Post } from '../models/post.model';
 import { User } from '../models/user.model';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { PostService } from '../services/post.service';
 import { AuthService } from '../services/auth.service';
 import { MatMenuTrigger } from '@angular/material/menu';
@@ -32,26 +32,28 @@ export class TimelineComponent implements OnInit {
     private router: Router,
     public post: PostService,
     private auth: AuthService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private changeDetectorRef: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.user_id = this.auth.getUserId();
-      this.route.params.subscribe(
-        (params) => {
-          console.log(this.auth.getUserId());
-          this.auth.getUserById(this.auth.getUserId()).then(
-            (user: User) => {
-              console.log(user);
-              this.user = user;
-              this.loading = false;
-            }
-          );
-        }
-      );
-      this.loading = true;
-      this.postSub = this.post.posts$.subscribe(
+    this.route.params.subscribe(
+      (params) => {
+        console.log(this.auth.getUserId());
+        this.auth.getUserById(this.auth.getUserId()).then(
+          (user: User) => {
+            console.log(user);
+            this.user = user;
+            this.loading = false;
+          }
+        );
+      }
+    );
+    this.loading = true;
+    this.postSub = this.post.posts$.subscribe(
       (posts) => {
         this.posts = posts;
+        console.log(posts);
         this.loading = false;
         this.errorMsg = null;
       },
@@ -61,7 +63,7 @@ export class TimelineComponent implements OnInit {
       }
     );
     this.post.getPosts();
-   }
+  }
 
   onClickPost(post_id: string) {
     this.router.navigate(['timeline/', post_id]);
@@ -78,7 +80,7 @@ export class TimelineComponent implements OnInit {
     ).catch(
       (error) => {
         this.loading = false;
-        //this.errorMessage = error.message;
+        this.errorMsg = error.message;
         console.error(error);
       }
     );
@@ -109,8 +111,6 @@ export class PostMessageDialog {
   posts: Post[];
   errorMsg: string;
   imagePreview: string;
-  animal: string;
-  name: string;
 
   constructor(private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -154,7 +154,7 @@ export class PostMessageDialog {
       (response: { message: string }) => {
         console.log(response.message);
         this.loading = false;
-        this.router.navigate(['/timeline']);
+        window.location.reload();
       }
     ).catch(
       (error) => {
@@ -165,6 +165,7 @@ export class PostMessageDialog {
     );
   }
 }
+
 
 @Component({
   selector: 'PostMediaDialog',
@@ -222,7 +223,7 @@ export class PostMediaDialog {
       (response: { message: string }) => {
         console.log(response.message);
         this.loading = false;
-        this.router.navigate(['/timeline']);
+        window.location.reload();
       }
     ).catch(
       (error) => {
