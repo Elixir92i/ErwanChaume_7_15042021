@@ -23,6 +23,7 @@
 
   <button class="btn" mat-raised-button [disabled]="loginForm.invalid" (click)="onLogin()">Se connecter</button>
   <p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
+  <p class="signup">Vous n'êtes pas encore inscrit ?&ensp;<a routerLink="/signup">Inscrivez-vous !</a></p>
 </form>
 </mat-card>
 </div>

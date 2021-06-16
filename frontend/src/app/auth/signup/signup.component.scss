@@ -1,19 +1,21 @@
-.container{
-  width: 600px;
+h1 {
+  max-width: 600px;
+  justify-content: center;
+  text-align: center;
   margin: auto;
-  h1{
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-    text-align: center;
-  }
+  margin-top: 20px;
 }
 
-.center{
+.container {
+  max-width: 400px;
+  margin: auto;
+}
+
+.center {
   margin-top: 50px;
 }
 
-.confirm{
+.confirm {
   margin-left: 30px;
 }
 
@@ -34,27 +36,43 @@ input.example-right-align {
   -moz-appearance: textfield;
 }
 
-.form-group{
+.form-group {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   position: relative;
-  .login{
-    height: fit-content;
+  .login {
     display: flex;
+    align-items: center;
     justify-content: center;
     flex-direction: column;
-    position: absolute;
-    right: 100px;
-    top: 30px;
-    img{
+    margin-bottom: 20px;
+    a{
+      text-decoration: none;
+      color: inherit;
+    }
+    img {
       width: 200px;
       height: 102px;
       margin-bottom: 20px;
     }
-    a{
+    a {
       align-self: center;
     }
   }
 }
 
+.inputField {
+  display: flex;
+  flex-direction: column;
+  .confirm{
+      margin: 0;
+  }
+}
+.mat-form-field{
+  width: 100%;
+}
+
+.pwdInvalid {
+  margin-bottom: 10px;
+}

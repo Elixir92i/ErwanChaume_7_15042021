@@ -18,35 +18,53 @@ export class UserProfileComponent implements OnInit {
   user: User;
   user_id: string;
   imagePreview: string;
-
+  currentPage = 1;
+  itemsPerPage = 5;
+  pageSize: number;
 
   constructor(
     private auth: AuthService,
     private route: ActivatedRoute,
     private router: Router) { }
 
-    ngOnInit() {
-      this.user_id = this.auth.getUserId();
-      this.route.params.subscribe(
-        (params) => {
-          console.log(this.auth.getUserId());
-          this.auth.getUserById(this.auth.getUserId()).then(
-            (user: User) => {
-              console.log(user);
-              this.user = user;
-              this.loading = false;
-            }
-          );
-        }
-      );
-    }
+  ngOnInit() {
+    this.user_id = this.auth.getUserId();
+    this.route.params.subscribe(
+      (params) => {
+        this.auth.getUserById(this.auth.getUserId()).then(
+          (user: User) => {
+            console.log(user);
+            this.user = user;
+            this.loading = false;
+          }
+        );
+      }
+      
+    );
+  }
 
-    onClickPost(post_id: string) {
-      this.router.navigate(['timeline/', post_id]);
-    }
+  public onPageChange(pageNum: number): void {
 
-    onModify() {
-      this.router.navigate(['/profile-update']);
-    }
+    this.pageSize = this.itemsPerPage * (pageNum - 1);
+
+  }
+
+  public changePagesize(num: number): void {
+
+    this.itemsPerPage = this.pageSize + num;
+
+  }
+
+  onClickPost(post_id: string) {
+    this.router.navigate(['timeline/', post_id]);
+  }
+
+  onClickEmpty() {
+    this.router.navigate(['timeline/']);
+  }
+
+  onModify() {
+    this.router.navigate(['/profile-update']);
+  }
 
 }

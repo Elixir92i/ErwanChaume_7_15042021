@@ -19,7 +19,7 @@ exports.signup = (req, res, next) => {
         email: req.body.email,
         password: hash,
         firstname: req.body.firstname,
-        lastname: req.body.lastname
+        lastname: req.body.lastname,
       });
       user.save()
         .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
@@ -115,8 +115,6 @@ exports.updatePassword = (req, res, next) => {
 // Mise à jour du profil
 exports.update = (req, res, next) => {
   const user_id = res.locals.userId;
-  //bcrypt.hash(req.body.password, 10)
-  //.then(hash => {
   let file = req.file;
   User.findOne({
     where: { user_id: user_id },
@@ -126,11 +124,6 @@ exports.update = (req, res, next) => {
         res.status(403).json({ "error": "Accès interdit" });
         return;
       }
-      /*bcrypt.compare(req.body.password, user.password)
-        .then(valid => {
-          if (!valid) {
-            return res.status(401).json({ error: 'Mot de passe incorrect !' });
-          }*/
       const filename = user.imageUrl.split('/images/')[1];
       const defaultFile = user.imageUrl;
       const defaultImage = 'http://localhost:3000/images/default.png';
@@ -140,12 +133,10 @@ exports.update = (req, res, next) => {
             firstname: req.body.firstname,
             lastname: req.body.lastname,
             email: req.body.email,
-            //password: hash,
             imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
           } : {
             firstname: req.body.firstname,
             lastname: req.body.lastname,
-            //password: hash,
             email: req.body.email,
           };
         var condition = { where: { user_id: req.params.user_id } }
@@ -157,18 +148,15 @@ exports.update = (req, res, next) => {
         fs.unlink(`images/${filename}`, () => {
         })
       }
-      //})
       const values = req.file ?
         {
           firstname: req.body.firstname,
           lastname: req.body.lastname,
           email: req.body.email,
-          //password: hash,
           imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
         } : {
           firstname: req.body.firstname,
           lastname: req.body.lastname,
-          //password: hash,
           email: req.body.email,
         };
       var condition = { where: { user_id: req.params.user_id } }

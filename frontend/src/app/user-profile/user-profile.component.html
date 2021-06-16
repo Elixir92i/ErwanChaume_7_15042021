@@ -1,49 +1,66 @@
 <div class="profile">
-    <h1>Bienvenue sur votre profil<span class="name">&ensp;{{ user.firstname }}</span></h1>
+    <h1>Bienvenue sur votre profil<span class="name">&ensp;{{ user?.firstname }}</span></h1>
     <h2>Vos informations:</h2>
     <div class="allProfile">
-        
+
         <div class="txtProfile">
             <p>
-                <span class="infos">Prénom: </span>{{ user.firstname }}
+                <span class="infos">Prénom: </span>{{ user?.firstname }}
             </p>
             <p>
-                <span class="infos">Nom: </span>{{ user.lastname }}
+                <span class="infos">Nom: </span>{{ user?.lastname }}
             </p>
-            <p>
-                <span class="infos">Email: </span>{{ user.email }}
+            <p class="email">
+                <span class="infos">Email: </span>{{ user?.email }}
             </p>
             <button mat-raised-button color="primary" (click)="onModify()">Modifier mon profil</button>
         </div>
         <div class="imgProfile">
-            <span class="infos">Image: </span><img [src]=" user.imageUrl" alt="">
+            <span class="infos">Image: </span><img [src]=" user?.imageUrl" alt="Photo de profil de {{ user?.firstname }} {{ user?.lastname }}">
         </div>
     </div>
 
 
     <h2>Vos publications:</h2>
-    <div *ngFor="let post of user.posts">
-        <mat-card class="example-card">
-            <mat-card-content (click)="onClickPost(post.post_id)">
-                <h1>{{ post.title }}</h1>
 
-                <img mat-card-image [src]="post.mediaUrl" alt="">
-                <p>
-                    {{ post.content }}
-                </p>
-                <div class="infoPost">
-                    <div class="likecount">
-                        {{ post.likes.length }} <mat-icon class="count">thumb_up</mat-icon>
+    <div *ngFor="let post of user?.posts | slice: pageSize | slice: 0:1">
+        <div class="example-card" *ngIf="user.posts?.length > 5">
+            <ngb-pagination [collectionSize]="user.posts.length" #numPages [pageSize]="itemsPerPage"
+                [(page)]="currentPage" (pageChange)="onPageChange(currentPage)"></ngb-pagination>
+        </div>
+    </div>
+    <mat-card class="example-card empty" *ngIf="user?.posts?.length === 0">
+        <mat-card-content>
+            <h1>Il n'y a rien à voir ici... </h1>
+            <p>
+                Vous n'avez encore jamais publié. Mais ce n'est pas grave vous pouvez y remédier !
+            </p>
+        </mat-card-content>
+        <mat-card-action>
+            <button mat-raised-button (click)="onClickEmpty()">Publier</button>
+        </mat-card-action>
+    </mat-card>
+    <mat-card class="example-card" *ngFor="let post of user?.posts | slice: pageSize | slice: 0:itemsPerPage">
+        <mat-card-content (click)="onClickPost(post.post_id)">
+            <h1>{{ post?.title }}</h1>
+
+            <img mat-card-image [src]="post.mediaUrl" alt="">
+            <p>
+                {{ post?.content }}
+            </p>
+            <div class="infoPost">
+                <div class="likecount">
+                    {{ post.likes?.length }} <mat-icon class="count">thumb_up</mat-icon>
+                </div>
+                <div>
+                    <div class="comment" *ngIf="post.comments.length <= 1">{{ post.comments?.length }} commentaire
                     </div>
-                    <div>
-                        <div class="comment" *ngIf="post.comments.length <= 1">{{ post.comments.length }} commentaire
-                        </div>
-                        <div class="comment" *ngIf="post.comments.length >= 2">{{ post.comments.length }} commentaires
-                        </div>
+                    <div class="comment" *ngIf="post.comments.length >= 2">{{ post.comments?.length }} commentaires
                     </div>
                 </div>
-            </mat-card-content>
-        </mat-card>
-    </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
 
 </div>

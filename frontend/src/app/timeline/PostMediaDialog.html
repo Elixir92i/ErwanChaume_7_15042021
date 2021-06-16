@@ -1,16 +1,16 @@
-<mat-dialog-content>
+<mat-dialog-content class="media">
     <form [formGroup]="mediaForm" *ngIf="!loading">
         <div class="form-group">
           <label for="title">Titre</label>
           <input type="text" class="form-control" id="title" formControlName="title">
         </div>
         <div class="form-group">
-          <input type="file" accept="image/*" #imageInput (change)="onFileAdded($event)">
+          <input class="img" type="file" accept="image/*" #imageInput (change)="onFileAdded($event)">
           <button mat-raised-button color="primary" (click)="imageInput.click()">Choisir une image</button>
           <img [src]="imagePreview" *ngIf="imagePreview" style="max-height: 100px;display:block;margin-top:10px">
         </div>
       
-        <button mat-raised-button color="primary" (click)="onMedia()">Publier</button>
+        <button mat-raised-button color="primary" [disabled]="mediaForm.invalid" (click)="onMedia()">Publier</button>
       </form>
   </mat-dialog-content>
   <mat-dialog-actions>

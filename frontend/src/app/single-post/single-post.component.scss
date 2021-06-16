@@ -5,9 +5,9 @@
   margin-bottom: 20px;
 }
 
-form{
+form {
   display: contents;
-  button{
+  button {
     margin-top: 10px;
   }
 }
@@ -30,14 +30,15 @@ form{
     margin-top: 15px;
     margin-bottom: 0px;
   }
-  p{
+  p {
     font-size: 18px;
   }
 }
 
-.delete{
-  position: absolute;
-  right: 20px;
+.btnAction {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .infoPost {
@@ -61,12 +62,47 @@ form{
   justify-content: center;
 }
 
-  .example-form {
-    min-width: 150px;
-    max-width: 500px;
-    width: 100%;
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.comments {
+  p {
+    margin-top: 15px;
   }
-  
-  .example-full-width {
-    width: 100%;
+}
+
+.container {
+  margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 600px) {
+  .infoPost {
+    display: flex;
+    align-items: inherit;
+    position: relative;
+    flex-direction: column;
+    .comment {
+      position: inherit;
+    }
+    .comments {
+      cursor: pointer;
+    }
+    .infoLike {
+      position: inherit;
+    }
   }
+}
+
+@media only screen and (max-width: 425px) {
+  .btnAction {
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+  }
+}

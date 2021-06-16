@@ -1,0 +1,28 @@
+.message {
+    width: 600px;
+    min-width: 250px;
+}
+
+.hint{
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+@media only screen and (max-width: 768px) {
+    .message{
+        width: 400px;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .message{
+        width: 300px;
+    }
+}
+
+@media only screen and (max-width: 365px) {
+    .message{
+        width: 250px; 
+        min-width: 250px;
+    }
+}

@@ -1,0 +1,80 @@
+.example-card {
+    max-width: 800px;
+    margin: auto;
+    margin-bottom: 30px;
+    P {
+        font-size: 18px;
+    }
+}
+
+.mat-card-header {
+    display: flex;
+    align-items: flex-end;
+}
+
+.count {
+    font-size: 16px;
+}
+.likecount {
+    display: flex;
+}
+
+.post {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    button {
+        width: 100px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}
+
+.mat-card-content {
+    margin-left: 4px;
+    h1 {
+        margin-top: 15px;
+    }
+}
+
+.infoPost {
+    display: flex;
+    align-items: center;
+    position: relative;
+    .comment {
+        position: absolute;
+        right: 20px;
+    }
+    .comments {
+        cursor: pointer;
+    }
+    .infoLike {
+        left: 12px;
+        position: absolute;
+        display: flex;
+    }
+}
+
+.button {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.btnFilter {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    height: 51px;
+    position: relative;
+    .menuBurger{
+        position: absolute;
+        right: 0;
+    }
+}
+
+.link {
+    text-decoration: none;
+    color: inherit;
+}

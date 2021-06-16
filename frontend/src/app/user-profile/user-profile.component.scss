@@ -9,7 +9,8 @@ h1 {
 }
 
 .profile {
-    width: 800px;
+    width: 100%;
+    max-width: 800px;
     margin: auto;
     p{
         font-size: 18px;
@@ -94,3 +95,40 @@ h2::after {
         display: flex;
     }
 }
+
+.empty {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    h1{
+        margin-bottom: 10px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    /*.allProfile{
+        flex-direction: column;
+    }*/
+}
+
+
+
+@media only screen and (max-width: 575px) {
+    h1 {
+        display: block;
+    }
+    .allProfile{
+        align-items: inherit;
+        flex-direction: column;
+        .imgProfile {
+            margin-top: 15px;
+            img {
+                width: 80px;
+                height: 80px;
+                border-radius: 40px;
+                object-fit: cover;
+            }
+        }
+    }
+}
+

@@ -3,6 +3,31 @@
     margin-top: 8px;
     img {
         width: 100%;
+        vertical-align: baseline;
+    }
+}
+
+.logoTablet {
+    display: none;
+    width: 50px;
+    margin-top: 8px;
+    img {
+        width: 100%;
+        vertical-align: baseline;
+    }
+}
+
+.responsive{
+    display: contents;
+}
+
+.menuBurger {
+    position: absolute;
+    right: 0px;
+    display: none;
+    .mat-icon {
+        display: flex;
+        align-items: center;
     }
 }
 
@@ -62,19 +87,57 @@
     position: absolute;
     right: 135px;
 }
-.accountb{
+.accountb {
     position: absolute;
     right: 85px;
 }
-.logoutb{
+.logoutb {
     position: absolute;
     right: 35px;
 }
-.signinb{
+.signinb {
     position: absolute;
     right: 35px;
 }
-.signupb{
+.signupb {
     position: absolute;
     right: 85px;
+}
+
+footer {
+    bottom: 0;
+    left: 0;
+    height: 30px;
+    background: transparent;
+    width: 100%;
+  }
+
+@media only screen and (max-width: 768px) {
+    .logo {
+        width: 200px;
+        margin-top: 8px;
+        display: none;
+        img {
+            width: 100%;
+            vertical-align: baseline;
+        }
+    }
+
+    .logoTablet {
+        display: block;
+        width: 50px;
+        margin-top: 8px;
+        img {
+            width: 100%;
+            vertical-align: baseline;
+        }
+    }
+
+    .menuBurger{
+        display: block;
+    }
+
+    .responsive{
+        display: none;
+    }
 }

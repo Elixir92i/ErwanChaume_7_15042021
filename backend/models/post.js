@@ -32,7 +32,7 @@ const Post = sequelize.define('post', {
     // Column-2, name
     title: { type: Sequelize.STRING, allowNull:false },
     mediaUrl: { type: Sequelize.STRING, allowNull:true },
-    content: { type: Sequelize.STRING, allowNull: true },
+    content: { type: Sequelize.TEXT, allowNull: true },
     
     
     // dates => current time

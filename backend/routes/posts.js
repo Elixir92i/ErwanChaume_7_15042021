@@ -19,6 +19,10 @@ router.delete('/timeline/:post_id', auth, multerMedias, postCtrl.deletePost);
 // Route récupération d'un Post
 router.get('/timeline/:post_id', auth, multerMedias, postCtrl.getPost);
 // Route récupération de tous les Posts
+router.get('/messages/', auth, multerMedias, postCtrl.getPostsMessages);
+// Route récupération de tous les Posts
+router.get('/medias/', auth, multerMedias, postCtrl.getPostsMedias);
+// Route récupération de tous les Posts
 router.get('/timeline/', auth, multerMedias, postCtrl.getPosts);
 // Route de like d'un Post
 router.post('/timeline/:post_id/like', auth, likeCtrl.likePost);

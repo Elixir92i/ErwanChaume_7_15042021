@@ -8,6 +8,7 @@ import { PostService } from '../services/post.service';
 import { AuthService } from '../services/auth.service';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-timeline',
@@ -26,23 +27,24 @@ export class TimelineComponent implements OnInit {
   imagePreview: string;
   user_id: string;
   user: User;
+  currentPage = 1;
+  itemsPerPage = 5;
+  pageSize: number;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     public post: PostService,
     private auth: AuthService,
-    public dialog: MatDialog,
-    private changeDetectorRef: ChangeDetectorRef) { }
+    public dialog: MatDialog) { }
 
   ngOnInit() {
     this.user_id = this.auth.getUserId();
     this.route.params.subscribe(
       (params) => {
-        console.log(this.auth.getUserId());
         this.auth.getUserById(this.auth.getUserId()).then(
           (user: User) => {
-            console.log(user);
             this.user = user;
             this.loading = false;
           }
@@ -53,7 +55,6 @@ export class TimelineComponent implements OnInit {
     this.postSub = this.post.posts$.subscribe(
       (posts) => {
         this.posts = posts;
-        console.log(posts);
         this.loading = false;
         this.errorMsg = null;
       },
@@ -65,8 +66,28 @@ export class TimelineComponent implements OnInit {
     this.post.getPosts();
   }
 
+  public onPageChange(pageNum: number): void {
+
+    this.pageSize = this.itemsPerPage * (pageNum - 1);
+
+  }
+
+  public changePagesize(num: number): void {
+
+    this.itemsPerPage = this.pageSize + num;
+
+  }
+
   onClickPost(post_id: string) {
     this.router.navigate(['timeline/', post_id]);
+  }
+
+  onClickFilterMessages() {
+    this.router.navigate(['./messages/']);
+  }
+
+  onClickFilterMedias() {
+    this.router.navigate(['./medias/']);
   }
 
   onLike(post_id: string) {
@@ -100,6 +121,7 @@ export class TimelineComponent implements OnInit {
 @Component({
   selector: 'PostMessageDialog',
   templateUrl: 'PostMessageDialog.html',
+  styleUrls: ['./PostMessageDialog.scss']
 })
 export class PostMessageDialog {
 
@@ -164,12 +186,18 @@ export class PostMessageDialog {
       }
     );
   }
+
+  autoGrowTextZone(e) {
+    e.target.style.height = "0px";
+    e.target.style.height = (e.target.scrollHeight + 25) + "px";
+  }
 }
 
 
 @Component({
   selector: 'PostMediaDialog',
   templateUrl: 'PostMediaDialog.html',
+  styleUrls: ['./PostMediaDialog.scss']
 })
 export class PostMediaDialog {
 

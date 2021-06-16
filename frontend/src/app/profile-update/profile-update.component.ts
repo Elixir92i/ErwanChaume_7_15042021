@@ -48,10 +48,8 @@ export class ProfileUpdateComponent implements OnInit {
     this.user_id = this.auth.getUserId();
     this.route.params.subscribe(
       (params) => {
-        console.log(this.auth.getUserId());
         this.auth.getUserById(this.auth.getUserId()).then(
           (user: User) => {
-            console.log(user);
             this.user = user;
             this.initModifyForm(user);
             this.loading = false;
@@ -157,7 +155,6 @@ export class ProfileUpdateComponent implements OnInit {
   }
 
   ConfirmedValidator(controlName: string, matchingControlName: string) {
-    console.log('toto');
     return (formGroup: FormGroup) => {
       const control = formGroup.controls[controlName];
       const matchingControl = formGroup.controls[matchingControlName];
@@ -184,16 +181,10 @@ export class ProfileUpdateComponent implements OnInit {
 
 export class DeleteAccountDialog {
 
-  updateForm: FormGroup;
-  passwordForm: FormGroup;
-  matcher = new MyErrorStateMatcher();
-  mode: string;
   loading: boolean;
   errorMsg: string;
   user: User;
   user_id: string;
-  imagePreview: string;
-  email = new FormControl('', [Validators.required, Validators.email]);
 
 
   constructor(
@@ -207,10 +198,8 @@ export class DeleteAccountDialog {
     this.user_id = this.auth.getUserId();
     this.route.params.subscribe(
       (params) => {
-        console.log(this.auth.getUserId());
         this.auth.getUserById(this.auth.getUserId()).then(
           (user: User) => {
-            console.log(user);
             this.user = user;
             this.loading = false;
           }
@@ -223,10 +212,8 @@ export class DeleteAccountDialog {
     this.loading = true;
     this.auth.deleteUser(this.user.user_id).then(
       (response: { message: string }) => {
-        console.log(response.message);
         this.loading = false;
         window.localStorage.clear();
-        //window.location.reload();
         this.router.navigate(['/signup']);
       }
     ).catch(

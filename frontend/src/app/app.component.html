@@ -1,9 +1,9 @@
 <!--<app-header></app-header>-->
 <div class="container">
   <mat-toolbar>
-
-
-    <a routerLink="/timeline" class="logo"><img src="../assets/logo-navbar-color.png" alt=""></a>
+    <a routerLink="/timeline" class="logo"><img src="../assets/logo-navbar-color.png" alt="Logo Groupomania"></a>
+    <a routerLink="/timeline" class="logoTablet"><img src="../assets/icon-transparent.png" alt="Logo Groupomania"></a>
+    <div class="responsive">
     <div class="hover-info homeb">
       <a mat-icon-button class="example-icon home" routerLink="/timeline" *ngIf="AuthGuard.isLoggedin">
         <mat-icon>home</mat-icon>
@@ -34,12 +34,40 @@
     </div>
 
     <div class="hover-info signinb" *ngIf="!AuthGuard.isLoggedin">
-      <a mat-icon-button class="example-icon signin" routerLink="/login" *ngIf="!AuthGuard.isLoggedin">
+      <a mat-icon-button class="example-icon signin" routerLink="/login">
         <mat-icon>login</mat-icon>
       </a>
       <div class=" info signin-info">Se connecter</div>
     </div>
+  </div>
+
+    <button mat-button [matMenuTriggerFor]="menu" *ngIf="AuthGuard.isLoggedin" class="menuBurger"><mat-icon>menu</mat-icon></button>
+    <mat-menu #menu="matMenu">
+      <a mat-menu-item mat-menu-item class="example-icon home" routerLink="/timeline" *ngIf="AuthGuard.isLoggedin">
+        <mat-icon>home</mat-icon> Fil d'actualité
+      </a>
+      <a mat-menu-item mat-menu-item class="example-icon account" routerLink="/user-profile" *ngIf="AuthGuard.isLoggedin">
+        <mat-icon>account_circle</mat-icon>Profil
+      </a>
+      <a mat-menu-item class="example-icon logout" routerLink="/logout" (click)="onLogout()"
+        *ngIf="AuthGuard.isLoggedin">
+        <mat-icon>logout</mat-icon>Se déconnecter
+      </a>   
+    </mat-menu>
+
+    <button mat-button [matMenuTriggerFor]="menuLogout" *ngIf="!AuthGuard.isLoggedin" class="menuBurger"><mat-icon>menu</mat-icon></button>
+    <mat-menu #menuLogout="matMenu">
+      <a mat-menu-item class="example-icon signup" routerLink="/signup">
+        <mat-icon>person_add</mat-icon>S'inscrire
+      </a>
+      
+
+      <a mat-menu-item class="example-icon signin" routerLink="/login">
+        <mat-icon>login</mat-icon>Se connecter
+      </a>
+    </mat-menu>
 
   </mat-toolbar>
   <router-outlet></router-outlet>
 </div>
+<footer></footer>

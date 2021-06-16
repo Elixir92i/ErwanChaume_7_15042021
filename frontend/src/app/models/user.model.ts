@@ -6,5 +6,6 @@ export class User {
     email: string;
     password: string;
     imageUrl: string;
+    admin: boolean;
     posts: Post;
 }

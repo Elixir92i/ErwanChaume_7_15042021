@@ -8,6 +8,7 @@ require('dotenv').config();
 const usersRoutes = require('./routes/users');
 const postRoutes = require('./routes/posts');
 
+//const helmet = require("helmet");
 
 //
 const sequelize = require('./utils/database');
@@ -30,7 +31,7 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 
-
+//app.use(helmet());
 
 app.use('/api/users', usersRoutes);
 

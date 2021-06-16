@@ -1,12 +1,14 @@
-<mat-dialog-content>
+<mat-dialog-content class="message">
   <form [formGroup]="messageForm" *ngIf="!loading">
     <div class="form-group">
       <label for="title">Titre</label>
       <input type="text" class="form-control" id="title" formControlName="title">
-      <label for="content">Message</label>
-      <input type="text" class="form-control" id="content" formControlName="content">
+      <div class="md-form">
+        <label for="form107">Message</label>
+        <textarea autosize type="text" class="form-control" id="content" formControlName="content" id="form107" class="md-textarea form-control" rows="5" mdbInput></textarea>
+      </div>
     </div>
-    <button mat-raised-button color="primary" (click)="onMessage()">Publier</button>
+    <button mat-raised-button color="primary" [disabled]="messageForm.invalid" (click)="onMessage()">Publier</button>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>

@@ -27,31 +27,26 @@
             id="email" formControlName="email" required>
           <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
         </mat-form-field>
-        <!--<p>Confirmez votre mot de passe</p>
-        <mat-form-field appearance="fill">
-          <mat-label>Mot de passe</mat-label>
-          <input matInput placeholder="mdp" [formControl]="password" type="password" class="form-control"
-            id="password" formControlName="password" required>
-        </mat-form-field>-->
       </div>
       <div class="imgProfile">
-        <p><span class="infos">Image: </span></p>
-        <div class="imgUpdate">
-          <img [src]=" user.imageUrl" alt="" *ngIf="!imagePreview">
-          <img [src]="imagePreview" *ngIf="imagePreview" style="max-height: 200px;display:block;margin-top:10px">
-          <input type="file" accept="image/*" #imageInput (change)="onFileAdded($event)">
-          <button mat-raised-button color="primary" (click)="imageInput.click()">Ajouter une image</button>
-        </div>
+          <p><span class="infos">Image: </span></p>
+          <div class="imgUpdate">
+            <img [src]=" user.imageUrl" alt="Photo de profil de {{ user?.firstname }} {{ user?.lastname }}"
+              *ngIf="!imagePreview">
+            <img [src]="imagePreview" *ngIf="imagePreview" style="max-height: 200px;display:block;margin-top:10px">
+            <input type="file" accept="image/*" #imageInput (change)="onFileAdded($event)">
+            <button mat-raised-button color="primary" (click)="imageInput.click()">Ajouter une image</button>
+          </div>
       </div>
     </div>
   </form>
   <button mat-raised-button [disabled]="updateForm.invalid" (click)="onUpdate()">Éditer mon profil</button>
   <div class="security">
     <h1 class="head">Paramètre de sécurité</h1>
-    <form [formGroup]="passwordForm">
-      <p class="infos">Nouveau mot de passe</p>
+    <form [formGroup]="passwordForm" class="password">
+      <h2 class="infos">Nouveau mot de passe</h2>
       <div class="inputField">
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" class="pwd">
           <mat-label>Mot de passe</mat-label>
           <input matInput placeholder="Mot de passe" type="password" class="form-control" id="password"
             formControlName="password" required>
@@ -59,7 +54,7 @@
             Entrez votre nouveau mot de passe
           </mat-error>
         </mat-form-field>
-        <mat-form-field appearance="fill" class="confirm">
+        <mat-form-field appearance="fill" class="confirm pwd">
           <mat-label>Confirmez mot de passe</mat-label>
           <input matInput placeholder="Mot de passe" type="password" class="form-control"
             formControlName="confirmPassword" [errorStateMatcher]="matcher" required>
@@ -68,10 +63,12 @@
           </mat-error>
         </mat-form-field>
       </div>
+      <p class="pwdInvalid" *ngIf="errorMsg">Mot de passe invalide ! Il doit contenir au minimum 1 majuscule, 1
+        minuscule, 1 caractère spécial, 1 chiffre et faire 8 caractères</p>
       <button mat-raised-button [disabled]="passwordForm.invalid" (click)="onUpdatePassword()">Éditer mon mot de
         passe</button>
     </form>
-    <p class="infos" id="deleteAccount">Supprimer votre compte</p>
+    <h2 class="infos" id="deleteAccount">Supprimer votre compte</h2>
     <button mat-raised-button color="warn" (click)="openDeleteDialog()">Supprimer votre profil</button>
   </div>
 </div>

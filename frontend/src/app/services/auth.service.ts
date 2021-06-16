@@ -42,7 +42,6 @@ export class AuthService {
       this.http.post('http://localhost:3000/api/users/login', { email: email, password: password }).subscribe(
         (response: { user_id: string, token: string }) => {
           this.user_id = response.user_id;
-          console.log(this.user_id)
           this.authToken = response.token;
           this.isAuth$.next(true);
           var Data = {
@@ -62,7 +61,6 @@ export class AuthService {
 
   getUserById(user_id: string) {
     return new Promise((resolve, reject) => {
-      console.log(user_id);
       this.http.get('http://localhost:3000/api/users/user-profile/' + user_id).subscribe(
         (user: User) => {
           resolve(user);
@@ -89,7 +87,6 @@ export class AuthService {
         const formData = new FormData();
         formData.append('user', JSON.stringify(user));
         formData.append('image', image);
-        console.log(formData);
         this.http.put('http://localhost:3000/api/users/user-profile/' + user_id, formData).subscribe(
           (response: { message: string }) => {
             resolve(response);

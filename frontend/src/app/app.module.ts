@@ -17,6 +17,11 @@ import {DemoMaterialModule} from './material-module';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
 import { SinglePostComponent } from './single-post/single-post.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {AutosizeModule} from 'ngx-autosize';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { MediasComponent } from './medias/medias.component';
+import { MessagesComponent } from './messages/messages.component';
 
 
 
@@ -32,7 +37,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
     PostMessageDialog,
     PostMediaDialog,
     SinglePostComponent,
-    DeleteAccountDialog
+    DeleteAccountDialog,
+    MediasComponent,
+    MessagesComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,8 +53,11 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ReactiveFormsModule,
     MatFormFieldModule,
     NgxPaginationModule,
+    NgbModule,
+    AutosizeModule,
+    InfiniteScrollModule
   ],
-  entryComponents: [TimelineComponent, PostMessageDialog, PostMediaDialog, ],
+  entryComponents: [TimelineComponent, PostMessageDialog, PostMediaDialog ],
   providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
   {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},],
   bootstrap: [AppComponent]

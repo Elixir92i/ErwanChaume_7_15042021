@@ -1,0 +1,91 @@
+<div class="post">
+    <button mat-raised-button (click)="onClickPublish()">Publier</button>
+</div>
+
+<div class="example-card">
+    <div class="btnFilter">
+        <div *ngIf="posts.length > 5">
+            <ngb-pagination [collectionSize]="posts.length" #numPages [pageSize]="itemsPerPage" [(page)]="currentPage"
+                (pageChange)="onPageChange(currentPage)"></ngb-pagination>
+        </div>
+        <button mat-button [matMenuTriggerFor]="menu" class="menuBurger">
+            <mat-icon>filter_list</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" class="matMenuBurger">
+            <a mat-menu-item mat-menu-item class="example-icon link" (click)="onClickFilterMessages()">
+                <mat-icon>forum</mat-icon>Tous les messages
+            </a>
+            <a mat-menu-item mat-menu-item class="example-icon link" (click)="onClickFilterAll()">
+                <mat-icon>remove_circle_outline</mat-icon>Toutes les publications
+            </a>
+        </mat-menu>
+    </div>
+    <mat-card class="example-card empty" *ngIf="posts?.length === 0">
+        <mat-card-content>
+            <h1>Oh non... </h1>
+            <p>
+                Personne n'a encore publié d'image sur notre site... Soyez le premier à en partager une !
+            </p>
+        </mat-card-content>
+        <mat-card-action class="post">
+            <button mat-raised-button (click)="onClickPublish()">Publier</button>
+        </mat-card-action>
+    </mat-card>
+    <mat-card class="example-card" *ngFor="let post of posts | slice: pageSize | slice: 0:itemsPerPage">
+        <mat-card-header>
+            <img mat-card-avatar class="example-header-image" [src]="post.user?.imageUrl"  alt="Photo de profil de {{ post?.user?.firstname }} {{ post?.user?.lastname }}">
+            <mat-card-title>{{ post.user.firstname }} {{ post.user.lastname }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content (click)="onClickPost(post.post_id)">
+            <h1>{{ post.title }}</h1>
+            <img mat-card-image [src]="post.mediaUrl" alt="">
+        </mat-card-content>
+        <mat-card-actions>
+            <div class="infoPost">
+                <div *ngIf="post.likes">
+                    <div class="likecount" *ngFor="let like of post.likes.slice(0, 1)">
+                        <div *ngIf="post.likes.length >= 3 && post.likes.length <= 9" class="infoLike">
+                            <mat-icon class="count">thumb_up</mat-icon> {{like.user.firstname}} {{like.user.lastname}}
+                            et {{
+                            post.likes.length -1}} autres personnes.
+                        </div>
+                        <div *ngIf="post.likes.length === 2" class="infoLike">
+                            <mat-icon class="count">thumb_up</mat-icon> {{like.user.firstname}} {{like.user.lastname}}
+                            et {{
+                            post.likes.length -1}} autre personne.
+                        </div>
+                        <div *ngIf="post.likes.length <= 1" class="infoLike">
+                            <mat-icon class="count">thumb_up</mat-icon> {{like.user.firstname}} {{like.user.lastname}}
+                            aime ça.
+                        </div>
+                        <div *ngIf="post.likes.length >= 10" class="infoLike">
+                            <mat-icon class="count">thumb_up</mat-icon> {{ post.likes.length }}
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="comment" *ngIf="post.comments.length == 0">{{ post.comments.length }} commentaire</div>
+                    <div class="comment comments" *ngIf="post.comments.length == 1" (click)="onClickPost(post.post_id)">
+                        {{
+                        post.comments.length }} commentaire</div>
+                    <div class="comment comments" *ngIf="post.comments.length >= 2" (click)="onClickPost(post.post_id)">
+                        {{
+                        post.comments.length }} commentaires</div>
+                </div>
+            </div>
+            <div class="button">
+                <button mat-button (click)="onLike(post.post_id)">
+                    <mat-icon>thumb_up</mat-icon> J'aime
+                    <mat-icon *ngIf="post.likes.includes(user.user_id)">thumb_down</mat-icon>
+                </button>
+                <button mat-button (click)="onClickPost(post.post_id)">
+                    Commenter
+                </button>
+            </div>
+        </mat-card-actions>
+    </mat-card>
+    <div *ngIf="posts.length > 5">
+        <ngb-pagination [collectionSize]="posts.length" #numPages [pageSize]="itemsPerPage" [(page)]="currentPage"
+            (pageChange)="onPageChange(currentPage)"></ngb-pagination>
+    </div>
+</div>

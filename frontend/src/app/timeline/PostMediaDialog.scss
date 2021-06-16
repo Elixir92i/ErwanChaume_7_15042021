@@ -1,0 +1,25 @@
+.media{
+    width: 600px;
+    .img{
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .media{
+        width: 400px;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .media{
+        width: 300px;
+    }
+}
+
+@media only screen and (max-width: 365px) {
+    .media{
+        width: 250px; 
+        min-width: 250px;
+    }
+}

@@ -1,71 +1,76 @@
+<h1>Bienvenue sur le réseau social d'entreprise de Groupomania !</h1>
 <div class="container">
-    <h1>Bienvenue sur le réseau social d'entreprise de Groupomania !</h1>
     <div class="center">
-        <h2>Inscription:</h2>
-        <mat-spinner *ngIf="loading"></mat-spinner>
-        <form [formGroup]="signupForm" *ngIf="!loading">
-            <div class="form-group">
-                <div class="txtProfile">
-                    <p class="infos">Votre prénom:</p>
-                    <mat-form-field appearance="fill">
-                        <mat-label>Prénom</mat-label>
-                        <input matInput type="firstname" class="form-control" id="firstname" formControlName="firstname"
-                            required>
-                    </mat-form-field>
+        <mat-card>
+            <h2>Inscription:</h2>
+            <mat-spinner *ngIf="loading"></mat-spinner>
+            <form [formGroup]="signupForm" *ngIf="!loading" class="inputField">
+                <div class="form-group">
+                    <mat-card class="login">
+                        <img src="../../../assets/icon-above-font-transparent.png" alt="Groupomania">
+                        <p>Vous possédez déjà un compte ?</p>
+                        <a mat-raised-button routerLink="/login">Connectez-vous !</a>
+                    </mat-card>
+                    <div class="txtProfile">
+                        <p class="infos">Votre prénom:</p>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Prénom</mat-label>
+                            <input matInput type="firstname" class="form-control" id="firstname"
+                                formControlName="firstname" required>
+                        </mat-form-field>
 
-                    <p class="infos">Votre nom:</p>
-                    <mat-form-field appearance="fill">
-                        <mat-label>Nom</mat-label>
-                        <input matInput type="lastname" class="form-control" id="lastname" formControlName="lastname"
-                            required>
-                    </mat-form-field>
+                        <p class="infos">Votre nom:</p>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Nom</mat-label>
+                            <input matInput type="lastname" class="form-control" id="lastname"
+                                formControlName="lastname" required>
+                        </mat-form-field>
 
-                    <p class="infos">Votre mail:</p>
-                    <mat-form-field appearance="fill">
-                        <mat-label>Mail</mat-label>
-                        <input matInput placeholder="johndoe@example.com" [formControl]="email" type="email"
-                            class="form-control" id="email" formControlName="email" required>
-                        <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
-                    </mat-form-field>
+                        <p class="infos">Votre mail:</p>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Mail</mat-label>
+                            <input matInput placeholder="johndoe@example.com" [formControl]="email" type="email"
+                                class="form-control" id="email" formControlName="email" required>
+                            <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+                        </mat-form-field>
+                    </div>
+
                 </div>
-                <mat-card class="login">
-                    <img src="../../../assets/icon-above-font-transparent.png" alt="Logo Groupomania">
-                    <p>Vous possédez déjà un compte ?</p>
-                    <a mat-raised-button routerLink="/login">Connectez-vous !</a>
-                </mat-card>
-            </div>
-        </form>
+            </form>
 
-        <form [formGroup]="passwordForm">
-            <p class="infos">Votre mot de passe:</p>
-            <mat-form-field appearance="fill">
-                <mat-label>Mot de passe</mat-label>
-                <input matInput [type]="hide ? 'password' : 'text'" placeholder="Mot de passe" type="password"
-                    class="form-control" id="password" formControlName="password" required>
-                <div mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-                    [attr.aria-pressed]="hide">
-                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                </div>
-                <mat-error *ngIf="passwordForm.hasError('required', 'password')">
-                    Entrez votre nouveau mot de passe
-                </mat-error>
-            </mat-form-field>
-            <mat-form-field appearance="fill" class="confirm">
-                <mat-label>Confirmez mot de passe</mat-label>
-                <input matInput [type]="hideConfirm ? 'password' : 'text'" placeholder="Mot de passe" type="password"
-                    class="form-control" formControlName="confirmPassword" [errorStateMatcher]="matcher" required>
-                <div mat-icon-button matSuffix (click)="hideConfirm = !hideConfirm" [attr.aria-label]="'Hide password'"
-                    [attr.aria-pressed]="hideConfirm">
-                    <mat-icon>{{hideConfirm ? 'visibility_off' : 'visibility'}}</mat-icon>
-                </div>
-                <mat-error *ngIf="passwordForm.hasError('notSame')">
-                    Les mots de passes ne correspondent pas
-                </mat-error>
-            </mat-form-field>
-        </form>
+            <form [formGroup]="passwordForm" class="inputField">
+                <p class="infos">Votre mot de passe:</p>
+                <mat-form-field appearance="fill">
+                    <mat-label>Mot de passe</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text'" placeholder="Mot de passe" type="password"
+                        class="form-control" id="password" formControlName="password" required>
+                    <div mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                        [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </div>
+                    <mat-error *ngIf="passwordForm.hasError('required', 'password')">
+                        Entrez votre nouveau mot de passe
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="confirm">
+                    <mat-label>Confirmez mot de passe</mat-label>
+                    <input matInput [type]="hideConfirm ? 'password' : 'text'" placeholder="Mot de passe"
+                        type="password" class="form-control" formControlName="confirmPassword"
+                        [errorStateMatcher]="matcher" required>
+                    <div mat-icon-button matSuffix (click)="hideConfirm = !hideConfirm"
+                        [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideConfirm">
+                        <mat-icon>{{hideConfirm ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </div>
+                    <mat-error *ngIf="passwordForm.hasError('notSame')">
+                        Les mots de passes ne correspondent pas
+                    </mat-error>
+                </mat-form-field>
+            </form>
 
-        <button mat-raised-button [disabled]="signupForm.invalid || passwordForm.invalid"
-            (click)="onSignup()">S'inscrire</button>
-        <p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
+            <button mat-raised-button [disabled]="signupForm.invalid || passwordForm.invalid"
+                (click)="onSignup()">S'inscrire</button>
+                <p class="pwdInvalid" *ngIf="errorMsg">Mot de passe invalide ! Il doit contenir au minimum 1 majuscule, 1
+                    minuscule, 1 caractère spécial, 1 chiffre et faire 8 caractères</p>
+        </mat-card>
     </div>
 </div>

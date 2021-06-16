@@ -6,7 +6,7 @@ import { User } from '../models/user.model';
 import { Comment } from '../models/comment.model';
 import { PostService } from '../services/post.service';
 import { AuthService } from '../services/auth.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -26,6 +26,9 @@ export class SinglePostComponent implements OnInit {
   user: User;
   commentForm: FormGroup;
   durationInSeconds = 3;
+  currentPage = 1;
+  itemsPerPage = 5;
+  pageSize: number;
 
   constructor(public posts: PostService,
     private formBuilder: FormBuilder,
@@ -41,7 +44,6 @@ export class SinglePostComponent implements OnInit {
       (params) => {
         this.posts.getPostById(params.post_id).then(
           (post: Post) => {
-            console.log(post)
             this.post = post;
             this.loading = false;
           }
@@ -51,7 +53,6 @@ export class SinglePostComponent implements OnInit {
     this.user_id = this.auth.getUserId();
     this.route.params.subscribe(
       (params) => {
-        console.log(this.auth.getUserId());
         this.auth.getUserById(this.auth.getUserId()).then(
           (user: User) => {
             this.user = user;
@@ -61,6 +62,18 @@ export class SinglePostComponent implements OnInit {
       }
     );
     this.initEmptyFormComment();
+  }
+
+  public onPageChange(pageNum: number): void {
+
+    this.pageSize = this.itemsPerPage * (pageNum - 1);
+
+  }
+
+  public changePagesize(num: number): void {
+
+    this.itemsPerPage = this.pageSize + num;
+
   }
 
   openDeletePostSnackBar() {
@@ -136,7 +149,7 @@ export class SinglePostComponent implements OnInit {
       (response: { message: string }) => {
         console.log(response.message);
         this.loading = false;
-        window.setTimeout(function(){location.reload()},500)
+        window.setTimeout(function () { location.reload() }, 500)
       }
     ).catch(
       (error) => {
@@ -153,7 +166,7 @@ export class SinglePostComponent implements OnInit {
       (response: { message: string }) => {
         console.log(response.message);
         this.loading = false;
-        window.setTimeout(function(){location.reload()},500)
+        window.setTimeout(function () { location.reload() }, 500)
       }
     ).catch(
       (error) => {
@@ -174,7 +187,7 @@ export class SinglePostComponent implements OnInit {
     }
   `],
 })
-export class DeletePostComponent {}
+export class DeletePostComponent { }
 
 
 @Component({
@@ -186,7 +199,7 @@ export class DeletePostComponent {}
     }
   `],
 })
-export class DeleteCommentComponent {}
+export class DeleteCommentComponent { }
 
 @Component({
   selector: 'comment-post-snackbar',
@@ -197,4 +210,4 @@ export class DeleteCommentComponent {}
     }
   `],
 })
-export class PostCommentComponent {}
+export class PostCommentComponent { }
