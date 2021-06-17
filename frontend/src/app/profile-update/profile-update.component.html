@@ -63,8 +63,7 @@
           </mat-error>
         </mat-form-field>
       </div>
-      <p class="pwdInvalid" *ngIf="errorMsg">Mot de passe invalide ! Il doit contenir au minimum 1 majuscule, 1
-        minuscule, 1 caractère spécial, 1 chiffre et faire 8 caractères</p>
+      <p class="pwdInvalid" *ngIf="errorMsg">{{ errorMsg }}</p>
       <button mat-raised-button [disabled]="passwordForm.invalid" (click)="onUpdatePassword()">Éditer mon mot de
         passe</button>
     </form>
