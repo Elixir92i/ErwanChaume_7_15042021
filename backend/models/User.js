@@ -1,46 +1,35 @@
-// Include Sequelize module.
+// Importation de sequelize
 const Sequelize = require('sequelize')
   
-// Import sequelize object, 
-// Database connection pool managed by Sequelize.
+// Connexion pour la base de données
 const sequelize = require('../utils/database')
 
+// Ajout de l'image par défaut
 const defaultProfile = ('http://localhost:3000/images/default.png');
   
-// Define method takes two arrguments
-// 1st - name of table
-// 2nd - columns inside the table
+// Création de la table des users
 const User = sequelize.define('user', {
-  
-    // Column-1, user_id is an object with 
-    // properties like type, keys, 
-    // validation of column.
+    // ID des users
     user_id:{
-  
-        // Sequelize module has INTEGER Data_Type.
         type:Sequelize.INTEGER,
-  
-        // To increment user_id automatically.
         autoIncrement:true,
-  
-        // user_id can not be null.
         allowNull:false,
-  
-        // For uniquely identify user.
         primaryKey:true
     },
   
-    // Column-2, name
+    // Prénom de l'utilisateur
     firstname: { type: Sequelize.STRING, allowNull:false },
+    // Nom de l'utilisateur
     lastname: { type: Sequelize.STRING, allowNull:false },
+    // Image de l'utilisateur (par défaut)
     imageUrl: { type: Sequelize.STRING, defaultValue: defaultProfile },
-  
-    // Column-3, email
+    // Email de l'utilisateur
     email: { type: Sequelize.STRING, allowNull:false, unique: true },
+    // Mot de passe de l'utilisateur
     password: { type: Sequelize.STRING, allowNull:false },
+    // Grade de l'utilisateur (admin ou pas)
     admin: { type : Sequelize.BOOLEAN, allowNull: false, defaultValue: false },
-    // Column-4, default values for
-    // dates => current time
+    // Date de création de l'utilisateur
     myDate: { type: Sequelize.DATE, 
             defaultValue: Sequelize.NOW },
   
@@ -48,8 +37,4 @@ const User = sequelize.define('user', {
      createdAt: Sequelize.DATE,
      updatedAt: Sequelize.DATE,
 })
-  
-// Exporting User, using this constant
-// we can perform CRUD operations on
-// 'user' table.
 module.exports = User;

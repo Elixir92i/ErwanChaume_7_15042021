@@ -1,4 +1,4 @@
-// Importation du module multer pour les photos
+// Importation du module multer pour les medias
 const multerMedias = require('multer'); 
 
 // Extensions des images acceptées par multer
@@ -14,7 +14,7 @@ const storage = multerMedias.diskStorage({
     destination: (req, file, callback) => {
         callback(null, 'images/medias')
     },
-    // Modification du nom des images reçu lors de l'ajout d'une sauce
+    // Modification du nom des images reçu lors de l'ajout d'un média
     filename: (req, file, cb) => {
         const name = file.originalname.split(' ').join('_');
         const extension = MIME_TYPES[file.mimetype];

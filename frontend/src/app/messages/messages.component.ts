@@ -39,6 +39,7 @@ export class MessagesComponent implements OnInit {
     private auth: AuthService,
     public dialog: MatDialog) { }
 
+  // Récupération des données utilisateur et des posts (messages)
   ngOnInit() {
     this.user_id = this.auth.getUserId();
     this.route.params.subscribe(
@@ -66,22 +67,22 @@ export class MessagesComponent implements OnInit {
     this.post.getMessages();
   }
 
+  // Pagination
   public onPageChange(pageNum: number): void {
-
     this.pageSize = this.itemsPerPage * (pageNum - 1);
-
   }
 
   public changePagesize(num: number): void {
-
     this.itemsPerPage = this.pageSize + num;
-
   }
+  // Pagination
 
+  // Fonction pour le click sur un post
   onClickPost(post_id: string) {
     this.router.navigate(['timeline/', post_id]);
   }
 
+  // Fonctions pour les boutons des filtres
   onClickFilterAll() {
     this.router.navigate(['./timeline/']);
   }
@@ -89,11 +90,14 @@ export class MessagesComponent implements OnInit {
   onClickFilterMedias() {
     this.router.navigate(['./medias/']);
   }
+  // Fonctions pour les boutons des filtres
 
-  onClickPublish(){
+  // Fonction du bouton publier
+  onClickPublish() {
     this.router.navigate(['./timeline/']);
   }
 
+  // Ajout/suppression d'un like
   onLike(post_id: string) {
     this.loading = true;
     this.post.likePost(post_id).then(

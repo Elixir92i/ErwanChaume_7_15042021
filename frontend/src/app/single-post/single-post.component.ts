@@ -37,6 +37,7 @@ export class SinglePostComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private router: Router) { }
 
+  // Récupération des données du post et user + création du form commentaire
   ngOnInit() {
     this.user_id = this.auth.getUserId();
     this.loading = true;
@@ -64,18 +65,17 @@ export class SinglePostComponent implements OnInit {
     this.initEmptyFormComment();
   }
 
+  // Pagination
   public onPageChange(pageNum: number): void {
-
     this.pageSize = this.itemsPerPage * (pageNum - 1);
-
   }
 
   public changePagesize(num: number): void {
-
     this.itemsPerPage = this.pageSize + num;
-
   }
+  // Pagination
 
+  // Snackbar
   openDeletePostSnackBar() {
     this._snackBar.openFromComponent(DeletePostComponent, {
       duration: this.durationInSeconds * 1000,
@@ -93,8 +93,9 @@ export class SinglePostComponent implements OnInit {
       duration: this.durationInSeconds * 1000,
     });
   }
+  // Snackbar
 
-
+  // Ajout/suppression d'un like
   onLike() {
     this.loading = true;
     this.posts.likePost(this.post.post_id).then(
@@ -112,10 +113,12 @@ export class SinglePostComponent implements OnInit {
     );
   }
 
+  // Fonction de retour
   onBack() {
     this.router.navigate(['/timeline']);
   }
 
+  // Fonction de suppression d'un post
   onDelete() {
     this.loading = true;
     this.posts.deletePost(this.post.post_id).then(
@@ -133,12 +136,14 @@ export class SinglePostComponent implements OnInit {
     );
   }
 
+  // Création du form commentaire
   initEmptyFormComment() {
     this.commentForm = this.formBuilder.group({
       commentContent: [null, Validators.required],
     });
   }
 
+  // Fonction d'ajout d'un commentaire
   onComment() {
     this.loading = true;
     const newComment = new Comment();
@@ -159,6 +164,8 @@ export class SinglePostComponent implements OnInit {
       }
     );
   }
+
+  // Fonction de suppression d'un commentaire
   onDeleteComment(comment_id) {
     this.loading = true;
     console.log(comment_id);
@@ -178,6 +185,7 @@ export class SinglePostComponent implements OnInit {
   }
 }
 
+// Snackbar
 @Component({
   selector: 'delete-post-snackbar',
   templateUrl: 'delete-post-snackbar.html',
@@ -211,3 +219,4 @@ export class DeleteCommentComponent { }
   `],
 })
 export class PostCommentComponent { }
+// Snackbar

@@ -8,20 +8,18 @@ require('dotenv').config();
 const usersRoutes = require('./routes/users');
 const postRoutes = require('./routes/posts');
 
-//const helmet = require("helmet");
+const helmet = require("helmet");
 
-//
+// Synchronisation de la base de donnée
 const sequelize = require('./utils/database');
 const User = require('./models/User');
 const Post = require('./models/post');
 const Comment = require('./models/comment');
 const Like = require('./models/like');
-
-
 sequelize.sync();
-
 //
 
+// Ajout des headers pour les requêtes de l'API
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
@@ -29,9 +27,11 @@ app.use((req, res, next) => {
     next();
 });
 
+// Utilisation de bodyParser
 app.use(bodyParser.json());
 
-//app.use(helmet());
+// Protection helmet
+app.use(helmet());
 
 app.use('/api/users', usersRoutes);
 

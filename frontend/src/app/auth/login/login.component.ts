@@ -17,9 +17,10 @@ export class LoginComponent implements OnInit {
   email = new FormControl('', [Validators.required, Validators.email]);
 
   constructor(private formBuilder: FormBuilder,
-              private auth: AuthService,
-              private router: Router) { }
+    private auth: AuthService,
+    private router: Router) { }
 
+  // Création du FormGroup de login
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       email: [null, [Validators.required, Validators.email]],
@@ -27,6 +28,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  // Erreur si le champs du mail est vide
   getErrorMessage() {
     if (this.email.hasError('required')) {
       return 'Ce champs ne doit pas être vide';
@@ -35,6 +37,7 @@ export class LoginComponent implements OnInit {
     return this.email.hasError('email') ? 'Veuillez entrer un mail valide' : '';
   }
 
+  // Connexion de l'utilisateur
   onLogin() {
     this.loading = true;
     const email = this.loginForm.get('email').value;

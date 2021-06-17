@@ -8,6 +8,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   constructor(private auth: AuthService) { }
 
+  // Protection des routes pour les utilisateurs non connecté 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     if (!localStorage.getItem("Users")) {
       return next.handle(req);

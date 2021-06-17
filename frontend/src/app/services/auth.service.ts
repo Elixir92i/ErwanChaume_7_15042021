@@ -16,6 +16,7 @@ export class AuthService {
   constructor(private http: HttpClient,
     private router: Router) { }
 
+  // Service de création d'un utilisateur
   createUser(email: string, password: string, firstname: string, lastname: string) {
     return new Promise((resolve, reject) => {
       this.http.post('http://localhost:3000/api/users/signup', { email: email, password: password, firstname: firstname, lastname: lastname }).subscribe(
@@ -29,14 +30,17 @@ export class AuthService {
     });
   }
 
+  // Récupération du token
   getToken() {
     return this.authToken;
   }
 
+  // Récupération du user_id dans le localStorage
   getUserId() {
     return JSON.parse(localStorage.getItem("Users")).userId;
   }
 
+  // Service de connexion d'un utilisateur
   loginUser(email: string, password) {
     return new Promise<void>((resolve, reject) => {
       this.http.post('http://localhost:3000/api/users/login', { email: email, password: password }).subscribe(
@@ -59,6 +63,7 @@ export class AuthService {
     });
   }
 
+  // Service de récupération d'un utilisateur
   getUserById(user_id: string) {
     return new Promise((resolve, reject) => {
       this.http.get('http://localhost:3000/api/users/user-profile/' + user_id).subscribe(
@@ -72,8 +77,10 @@ export class AuthService {
     });
   }
 
+  // Service de mise à jour du profil
   updateUser(user_id: string, user: User, image: string | File) {
     return new Promise((resolve, reject) => {
+      // Si il n'y a pas d'image
       if (typeof image === 'string') {
         this.http.put('http://localhost:3000/api/users/user-profile/' + user_id, user).subscribe(
           (response: { message: string }) => {
@@ -83,7 +90,9 @@ export class AuthService {
             reject(error);
           }
         );
-      } else {
+      }
+      // Si il y a une image
+      else {
         const formData = new FormData();
         formData.append('user', JSON.stringify(user));
         formData.append('image', image);
@@ -99,6 +108,7 @@ export class AuthService {
     });
   }
 
+  // Service de mise à jour du mot de passe
   updateUserPassword(user_id: string, user: User) {
     return new Promise((resolve, reject) => {
       this.http.put('http://localhost:3000/api/users/user-profile/' + user_id + '/password', user).subscribe(
@@ -109,9 +119,10 @@ export class AuthService {
           reject(error);
         }
       );
-    }) 
+    })
   }
 
+  // Service de suppression d'un utilisateur
   deleteUser(user_id: string) {
     return new Promise((resolve, reject) => {
       this.http.delete('http://localhost:3000/api/users/user-profile/' + user_id).subscribe(
@@ -125,6 +136,7 @@ export class AuthService {
     });
   }
 
+  // Service de déconnexion d'un utilisateur
   logout() {
     this.authToken = null;
     this.user_id = null;

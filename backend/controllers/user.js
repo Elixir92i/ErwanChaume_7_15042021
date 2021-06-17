@@ -5,9 +5,8 @@ const User = require('../models/User');
 // Importation du module JWT (token unique par utilisateur)
 const jwt = require('jsonwebtoken');
 
+// Importation de fs
 const fs = require('fs');
-const multer = require('../middleware/multer-config');
-
 
 // Création d'un utilisateur
 exports.signup = (req, res, next) => {
@@ -49,7 +48,7 @@ exports.login = (req, res, next) => {
             user_id: user.user_id,
             token: jwt.sign(
               { user_id: user.user_id },
-              'j0jwkRY1UUwcGmOer6OVlUs-iPpR4lK-IIzgVGXvTsA',
+              process.env.JWT,
               { expiresIn: '24h' }
             )
           });
@@ -59,17 +58,20 @@ exports.login = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
 };
 
-// Get one
+// Recherche d'un utilisateur
 exports.getUser = (req, res, next) => {
   const user_id = res.locals.userId;
+  // Recherche via le user_id
   User.findOne({
     include: { all: true, nested: true },
     where: { user_id: user_id },
   }).then(user => {
+    // Si le user_id est différent de celui dans la barre de recherche -> annulation
     if (user_id != req.params.user_id) {
       res.status(403).json({ "error": "Accès interdit" });
       return;
     }
+    // Si le user_id correspond envoie de l'objet user
     res.status(200).json(user)
       .catch(error => res.status(400).json({ error }));
   })
@@ -79,17 +81,21 @@ exports.getUser = (req, res, next) => {
 // Mise à jour du mot de passe
 exports.updatePassword = (req, res, next) => {
   const user_id = res.locals.userId;
+  // Hashage du mot de passe récupéré dans le formulaire d'update
   bcrypt.hash(req.body.password, 10)
     .then(hash => {
       let file = req.file;
+      // Recherche de l'utilisateur
       User.findOne({
         where: { user_id: user_id },
       })
         .then(user => {
+          // Si le user_id est différent de celui dans la barre de recherche -> annulation
           if (user_id != req.params.user_id) {
             res.status(403).json({ "error": "Accès interdit" });
             return;
           }
+          // Récupération des valeurs
           const values = req.file ?
             {
               password: hash,
@@ -98,7 +104,7 @@ exports.updatePassword = (req, res, next) => {
             };
           var condition = { where: { user_id: req.params.user_id } }
           var options = { multi: true };
-
+          // Mise à jour du mot de passe de l'utilisateur
           User.update(values, condition, options)
         })
         .catch(error => res.status(400).json({ error }))
@@ -116,18 +122,23 @@ exports.updatePassword = (req, res, next) => {
 exports.update = (req, res, next) => {
   const user_id = res.locals.userId;
   let file = req.file;
+  // Recherche de l'utilisateur
   User.findOne({
     where: { user_id: user_id },
   })
     .then(user => {
+      // Si le user_id est différent de celui dans la barre de recherche -> annulation
       if (user_id != req.params.user_id) {
         res.status(403).json({ "error": "Accès interdit" });
         return;
       }
+      // Déclaration des constantes nécéssaires
       const filename = user.imageUrl.split('/images/')[1];
       const defaultFile = user.imageUrl;
       const defaultImage = 'http://localhost:3000/images/default.png';
+      // Si l'image de l'utilisateur est celle par défaut
       if (defaultFile == defaultImage) {
+        // Récupération des valeurs 
         const values = req.file ?
           {
             firstname: req.body.firstname,
@@ -141,13 +152,16 @@ exports.update = (req, res, next) => {
           };
         var condition = { where: { user_id: req.params.user_id } }
         var options = { multi: true };
-
+        // Mise à jour de l'utilisateur
         User.update(values, condition, options)
       }
+      // Si l'image de l'utilisateur est différente de celle par défaut
       else if (file && filename != file.filename) {
+        // Suppression de son ancienne image stockée dans le projet
         fs.unlink(`images/${filename}`, () => {
         })
       }
+      // Récupération des valeurs
       const values = req.file ?
         {
           firstname: req.body.firstname,
@@ -161,7 +175,7 @@ exports.update = (req, res, next) => {
         };
       var condition = { where: { user_id: req.params.user_id } }
       var options = { multi: true };
-
+      // Mise à jour de l'utilisateur
       User.update(values, condition, options)
     })
     .catch(error => res.status(400).json({ error }))

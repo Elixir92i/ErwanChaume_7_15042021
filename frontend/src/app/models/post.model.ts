@@ -1,3 +1,4 @@
+// Modèle pour les posts
 import { User } from './user.model';
 import { Like } from './like.model';
 import { Comment } from './comment.model';

@@ -39,6 +39,7 @@ export class TimelineComponent implements OnInit {
     private auth: AuthService,
     public dialog: MatDialog) { }
 
+  // Récupération des données des posts et user
   ngOnInit() {
     this.user_id = this.auth.getUserId();
     this.route.params.subscribe(
@@ -66,22 +67,22 @@ export class TimelineComponent implements OnInit {
     this.post.getPosts();
   }
 
+  // Pagination
   public onPageChange(pageNum: number): void {
-
     this.pageSize = this.itemsPerPage * (pageNum - 1);
-
   }
 
   public changePagesize(num: number): void {
-
     this.itemsPerPage = this.pageSize + num;
-
   }
+  // Pagination
 
+  // Fonction pour le click sur un post
   onClickPost(post_id: string) {
     this.router.navigate(['timeline/', post_id]);
   }
 
+  // Fonctions pour les boutons des filtres
   onClickFilterMessages() {
     this.router.navigate(['./messages/']);
   }
@@ -89,7 +90,9 @@ export class TimelineComponent implements OnInit {
   onClickFilterMedias() {
     this.router.navigate(['./medias/']);
   }
+  // Fonctions pour les boutons des filtres
 
+  // Ajout/suppression d'un like 
   onLike(post_id: string) {
     this.loading = true;
     this.post.likePost(post_id).then(
@@ -107,6 +110,7 @@ export class TimelineComponent implements OnInit {
     );
   }
 
+  // Fonction dialog post
   openMediaDialog() {
     const dialogRef = this.dialog.open(PostMediaDialog, { restoreFocus: false });
     dialogRef.afterClosed().subscribe(() => this.menuTrigger.focus());
@@ -116,8 +120,10 @@ export class TimelineComponent implements OnInit {
     const dialogRef = this.dialog.open(PostMessageDialog, { restoreFocus: false });
     dialogRef.afterClosed().subscribe(() => this.menuTrigger.focus());
   }
+  // Fonction dialog post
 }
 
+// Dialog post message
 @Component({
   selector: 'PostMessageDialog',
   templateUrl: 'PostMessageDialog.html',
@@ -135,12 +141,11 @@ export class PostMessageDialog {
   imagePreview: string;
 
   constructor(private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
     private post: PostService,
     private auth: AuthService,
     public dialog: MatDialog) { }
 
+  // Création du FormGroup
   ngOnInit() {
     this.loading = true;
     this.postSub = this.post.posts$.subscribe(
@@ -158,6 +163,7 @@ export class PostMessageDialog {
     this.initEmptyFormMessage();
   }
 
+  // Création du FormGroup
   initEmptyFormMessage() {
     this.messageForm = this.formBuilder.group({
       title: [null, Validators.required],
@@ -165,6 +171,7 @@ export class PostMessageDialog {
     });
   }
 
+  // Publication d'un messsage
   onMessage() {
     this.loading = true;
     const newPost = new Post();
@@ -187,13 +194,14 @@ export class PostMessageDialog {
     );
   }
 
+  // Auto-size form field du contenu du message
   autoGrowTextZone(e) {
     e.target.style.height = "0px";
     e.target.style.height = (e.target.scrollHeight + 25) + "px";
   }
 }
 
-
+// Dialog post média
 @Component({
   selector: 'PostMediaDialog',
   templateUrl: 'PostMediaDialog.html',
@@ -219,6 +227,7 @@ export class PostMediaDialog {
     private auth: AuthService,
     public dialog: MatDialog) { }
 
+  // Création du FormGroup
   ngOnInit() {
     this.postSub = this.post.posts$.subscribe(
       (posts) => {
@@ -235,12 +244,15 @@ export class PostMediaDialog {
     this.initEmptyFormMedia();
   }
 
+  // Création du FormGroup
   initEmptyFormMedia() {
     this.mediaForm = this.formBuilder.group({
       title: [null, Validators.required],
       image: [null, Validators.required],
     });
   }
+
+  // Publication d'un média
   onMedia() {
     this.loading = true;
     const newPost = new Post();
@@ -261,6 +273,8 @@ export class PostMediaDialog {
       }
     );
   }
+
+  // Fonction pour l'image de profil (preview)
   onFileAdded(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
     this.mediaForm.get('image').setValue(file);

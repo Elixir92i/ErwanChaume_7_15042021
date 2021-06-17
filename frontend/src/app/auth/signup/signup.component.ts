@@ -30,20 +30,23 @@ export class SignupComponent implements OnInit {
   email = new FormControl('', [Validators.required, Validators.email]);
 
   constructor(private formBuilder: FormBuilder,
-              private auth: AuthService,
-              private router: Router) { }
+    private auth: AuthService,
+    private router: Router) { }
 
+  // Création du FormGroup de signup
   ngOnInit() {
     this.signupForm = this.formBuilder.group({
       email: [null, [Validators.required, Validators.email]],
       lastname: [null, Validators.required],
-      firstname: [null, Validators.required] });
+      firstname: [null, Validators.required]
+    });
     this.passwordForm = this.formBuilder.group({
       password: ['', [Validators.required]],
       confirmPassword: ['']
     }, { validator: this.checkPasswords });
   }
 
+  // Vérification que les 2 mots de passes sont identiques
   checkPasswords(group: FormGroup) {
     let pass = group.controls.password.value;
     let confirmPass = group.controls.confirmPassword.value;
@@ -51,6 +54,7 @@ export class SignupComponent implements OnInit {
     return pass === confirmPass ? null : { notSame: true }
   }
 
+  // Erreur si le mail est vide
   getErrorMessage() {
     if (this.email.hasError('required')) {
       return 'Ce champs ne doit pas être vide';
@@ -59,6 +63,7 @@ export class SignupComponent implements OnInit {
     return this.email.hasError('email') ? 'Veuillez entrer un mail valide' : '';
   }
 
+  // Inscription de l'utilisateur puis connexion de ce dernier
   onSignup() {
     this.loading = true;
     const email = this.signupForm.get('email').value;
@@ -82,9 +87,9 @@ export class SignupComponent implements OnInit {
         );
       }
     ).catch((error) => {
-        this.loading = false;
-        console.error(error);
-        this.errorMsg = error.message;
+      this.loading = false;
+      console.error(error);
+      this.errorMsg = error.message;
     });
   }
 

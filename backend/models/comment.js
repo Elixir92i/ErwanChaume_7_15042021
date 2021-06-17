@@ -1,46 +1,27 @@
-// Include Sequelize module.
+// Importation de sequelize
 const Sequelize = require('sequelize')
-  
-// Import sequelize object, 
-// Database connection pool managed by Sequelize.
+
+// Connexion pour la base de données
 const sequelize = require('../utils/database')
 
-  
-// Define method takes two arrguments
-// 1st - name of table
-// 2nd - columns inside the table
+// Création de la table des commentaires
 const Comment = sequelize.define('comment', {
-  
-    // Column-1, user_id is an object with 
-    // properties like type, keys, 
-    // validation of column.
+    // ID des commentaires
     comment_id:{
-  
-        // Sequelize module has INTEGER Data_Type.
         type:Sequelize.INTEGER,
-  
-        // To increment user_id automatically.
         autoIncrement:true,
-  
-        // user_id can not be null.
         allowNull:false,
-  
-        // For uniquely identify user.
         primaryKey:true
     },
   
-    // Column-2, name
+    // Contenu du commentaire
     commentContent: {type: Sequelize.STRING, allowNull: false},
     
-    // dates => current time
+    // Date du commentaire
     myDate: { type: Sequelize.DATE, 
             defaultValue: Sequelize.NOW },
   
      // Timestamps
      createdAt: Sequelize.DATE,
 })
-  
-// Exporting User, using this constant
-// we can perform CRUD operations on
-// 'user' table.
 module.exports = Comment;

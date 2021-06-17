@@ -37,6 +37,7 @@ export class MediasComponent implements OnInit {
     private auth: AuthService,
     public dialog: MatDialog) { }
 
+  // Récupération des données utilisateur et des posts (médias)
   ngOnInit() {
     this.user_id = this.auth.getUserId();
     this.route.params.subscribe(
@@ -64,18 +65,17 @@ export class MediasComponent implements OnInit {
     this.post.getMedias();
   }
 
+  // Pagination
   public onPageChange(pageNum: number): void {
-
     this.pageSize = this.itemsPerPage * (pageNum - 1);
-
   }
 
   public changePagesize(num: number): void {
-
     this.itemsPerPage = this.pageSize + num;
-
   }
+  // Pagination
 
+  // Fonctions pour les boutons des filtres
   onClickFilterMessages() {
     this.router.navigate(['./messages/']);
   }
@@ -83,15 +83,19 @@ export class MediasComponent implements OnInit {
   onClickFilterAll() {
     this.router.navigate(['./timeline/']);
   }
+  // Fonctions pour les boutons des filtres
 
+  // Fonction pour le click sur un post
   onClickPost(post_id: string) {
     this.router.navigate(['timeline/', post_id]);
   }
 
+  // Fonction du bouton publier
   onClickPublish(){
     this.router.navigate(['./timeline/']);
   }
 
+  // Ajout/suppression d'un like 
   onLike(post_id: string) {
     this.loading = true;
     this.post.likePost(post_id).then(

@@ -1,41 +1,28 @@
-// Include Sequelize module.
+// Importation de sequelize
 const Sequelize = require('sequelize')
   
-// Import sequelize object, 
-// Database connection pool managed by Sequelize.
+// Connexion pour la base de données
 const sequelize = require('../utils/database')
 
-  
-// Define method takes two arrguments
-// 1st - name of table
-// 2nd - columns inside the table
+// Création de la table des posts
 const Post = sequelize.define('post', {
-  
-    // Column-1, user_id is an object with 
-    // properties like type, keys, 
-    // validation of column.
+    // ID des posts
     post_id:{
-  
-        // Sequelize module has INTEGER Data_Type.
         type:Sequelize.INTEGER,
-  
-        // To increment user_id automatically.
         autoIncrement:true,
-  
-        // user_id can not be null.
         allowNull:false,
-  
-        // For uniquely identify user.
         primaryKey:true
     },
   
-    // Column-2, name
+    // Titre du post
     title: { type: Sequelize.STRING, allowNull:false },
+    // Image du post (média)
     mediaUrl: { type: Sequelize.STRING, allowNull:true },
+    // Contenu du post (message)
     content: { type: Sequelize.TEXT, allowNull: true },
     
     
-    // dates => current time
+    // Date du commentaire
     myDate: { type: Sequelize.DATE, 
             defaultValue: Sequelize.NOW },
   
@@ -43,8 +30,4 @@ const Post = sequelize.define('post', {
      createdAt: Sequelize.DATE,
      updatedAt: Sequelize.DATE,
 })
-  
-// Exporting User, using this constant
-// we can perform CRUD operations on
-// 'user' table.
 module.exports = Post;

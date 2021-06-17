@@ -27,13 +27,13 @@ export class UserProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router) { }
 
+  // Récupération des données user
   ngOnInit() {
     this.user_id = this.auth.getUserId();
     this.route.params.subscribe(
       (params) => {
         this.auth.getUserById(this.auth.getUserId()).then(
           (user: User) => {
-            console.log(user);
             this.user = user;
             this.loading = false;
           }
@@ -43,26 +43,27 @@ export class UserProfileComponent implements OnInit {
     );
   }
 
+  // Pagination
   public onPageChange(pageNum: number): void {
-
     this.pageSize = this.itemsPerPage * (pageNum - 1);
-
   }
 
   public changePagesize(num: number): void {
-
     this.itemsPerPage = this.pageSize + num;
-
   }
+  // Pagination
 
+  // Fonction pour le click sur un post
   onClickPost(post_id: string) {
     this.router.navigate(['timeline/', post_id]);
   }
 
+  // Fonction pour le click sur publier
   onClickEmpty() {
     this.router.navigate(['timeline/']);
   }
 
+  // Fonction pour le click pour la modification du profil
   onModify() {
     this.router.navigate(['/profile-update']);
   }

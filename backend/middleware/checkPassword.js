@@ -1,8 +1,9 @@
 const passwordSchema = require('../models/password');
 
-// La vérification de mot de passe à la création
+// Vérification de mot de passe à la création et à l'update
 module.exports = (req, res, next) => {
 	password = req.body.password;
+	// Si le schéma ne correspond pas envoi d'une erreur
 	if (!passwordSchema.validate(password)) {
 		res.writeHead(
 			400,

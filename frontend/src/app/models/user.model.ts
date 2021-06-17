@@ -1,3 +1,4 @@
+// Modèle pour les users
 import { Post } from './post.model';
 export class User {
     firstname: string;
