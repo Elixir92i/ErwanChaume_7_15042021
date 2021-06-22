@@ -59,7 +59,7 @@ import { MessagesComponent } from './messages/messages.component';
   ],
   entryComponents: [TimelineComponent, PostMessageDialog, PostMediaDialog ],
   providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
-  {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},],
+  {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

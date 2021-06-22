@@ -12,6 +12,7 @@ import { MessagesComponent } from './messages/messages.component';
 
 
 const routes: Routes = [
+  { path: '', component: SignupComponent, canActivate: [AuthGuard] },
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent },
   { path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard] },
