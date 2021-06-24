@@ -16,3 +16,5 @@ Une fois fait importer la sauvegarde SQL, cette dernière créera les tables pou
 Ensuite pour démarrer le projet il vous faudra faire un 'ng serve -o' dans un terminal à la racine du frontend et un 'nodemon server' à la racine du backend.
 
 Voilà vous êtes prêt à utiliser le projet !
+
+PS: Si vous souhaiter ajouter un administateur il vous suffit de le faire manuellement dans la base SQL, la valeur admin par défaut est de 0 (false) passez la à 1 (true) et l'utilisateur sera admin !
