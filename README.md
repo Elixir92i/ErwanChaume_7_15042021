@@ -1,3 +1,5 @@
+# ErwanChaume_7_15042021
+
 ###### GROUPOMANIA ######
 
 Pour lancer le projet sur votre machine, clonez le repository et déposez le dans un dossier.
@@ -18,3 +20,5 @@ Ensuite pour démarrer le projet il vous faudra faire un 'ng serve -o' dans un t
 Voilà vous êtes prêt à utiliser le projet !
 
 PS: Si vous souhaiter ajouter un administateur il vous suffit de le faire manuellement dans la base SQL, la valeur admin par défaut est de 0 (false) passez la à 1 (true) et l'utilisateur sera admin !
+
+Projet 7 - OpenClassrooms - Développeur Web
